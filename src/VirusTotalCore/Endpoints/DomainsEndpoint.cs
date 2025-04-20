@@ -9,7 +9,7 @@ namespace VirusTotalCore.Endpoints;
 public class DomainsEndpoint : BaseEndpoint
 {
     public DomainsEndpoint(string apiKey) : base(apiKey, "domains") { }
-    public DomainsEndpoint(HttpClient customHttpClient, string apiKey) : base(customHttpClient, apiKey, "domains") { }
+    public DomainsEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "domains") { }
     /// <summary>
     /// Get report about specific domain
     /// </summary>

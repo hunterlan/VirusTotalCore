@@ -10,7 +10,7 @@ namespace VirusTotalCore.Endpoints;
 public class AddressIpEndpoint : BaseEndpoint
 {
     public AddressIpEndpoint(string apiKey) : base(apiKey, "ip_addresses") { }
-    public AddressIpEndpoint(HttpClient customHttpClient, string apiKey) : base(customHttpClient, apiKey, "ip_addresses") { }
+    public AddressIpEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "ip_addresses") { }
     /// <summary>
     ///     Get report on given ip address
     /// </summary>

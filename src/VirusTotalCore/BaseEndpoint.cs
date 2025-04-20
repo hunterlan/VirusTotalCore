@@ -24,11 +24,11 @@ public abstract class BaseEndpoint
         HttpClient.DefaultRequestHeaders.Add("x-apikey", ApiKey);
     }
 
-    protected BaseEndpoint(HttpClient customHttpClient, string apiKey, string endpoint)
+    protected BaseEndpoint(IHttpClientFactory customHttpClient, string apiKey, string endpoint)
     {
         CurrentEndpointName = endpoint;
         ApiKey = apiKey;
-        HttpClient = customHttpClient;
+        HttpClient = customHttpClient.CreateClient();
         HttpClient.BaseAddress = new Uri(Url);
         HttpClient.DefaultRequestHeaders.Add("x-apikey", ApiKey);
     }

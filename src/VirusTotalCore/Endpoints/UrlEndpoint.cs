@@ -13,7 +13,7 @@ namespace VirusTotalCore.Endpoints;
 public class UrlEndpoint : BaseEndpoint
 {
     public UrlEndpoint(string apiKey) : base(apiKey, "urls") { }
-    public UrlEndpoint(HttpClient customHttpClient, string apiKey) : base(customHttpClient, apiKey, "urls") { }
+    public UrlEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "urls") { }
     // TODO: Rewrite it
     /// <summary>
     /// Request to scan URL. 

@@ -12,7 +12,7 @@ namespace VirusTotalCore.Endpoints;
 public class FilesEndpoint : BaseEndpoint
 {
     public FilesEndpoint(string apiKey) : base(apiKey, "files") { }
-    public FilesEndpoint(HttpClient customHttpClient, string apiKey) : base(customHttpClient, apiKey, "files") { }
+    public FilesEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "files") { }
     /// <summary>
     /// Size of file is allowed to post without requesting an URL for it (32 MB in bytes).
     /// </summary>

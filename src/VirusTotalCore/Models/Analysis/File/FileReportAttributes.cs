@@ -18,7 +18,7 @@ public class FileReportAttributes
     public long TimesSubmitted { get; set; }
     public required Votes TotalVotes { get; set; }
     public long Size { get; set; }
-    public required string TypeExtension { get; set; }
+    public string? TypeExtension { get; set; }
     public long LastSubmissionDate { get; set; }
     public required Dictionary<string, EngineAnalysisResult> LastAnalysisResults { get; set; }
     public required string Sha256 { get; set; }
