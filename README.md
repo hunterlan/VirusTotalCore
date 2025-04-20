@@ -35,7 +35,6 @@ Library requires to use at least .NET 8.
 
 **External dependencies**
 
-- [RestSharp](https://github.com/restsharp/RestSharp)
 - [XUnit](https://github.com/xunit/xunit)
 
 # Contributing
