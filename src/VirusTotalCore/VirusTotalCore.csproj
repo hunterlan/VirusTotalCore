@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Title>VirusTotalCore</Title>
     <Authors>Kostiantyn Sharykin</Authors>
     <Description>C# library implementation of anti-virus service - VirusTotal</Description>
