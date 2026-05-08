@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace VirusTotalCore.Models;
+namespace VirusTotalCore.Common.Models;
 
 public class ErrorResponse
 {

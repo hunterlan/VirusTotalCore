@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using VirusTotalCore.Endpoints;
-using VirusTotalCore.Exceptions;
+using VirusTotalCore.Common.Exceptions;
 using VirusTotalCore.Models.Comments;
 
 namespace VirusTotalCore.Tests;

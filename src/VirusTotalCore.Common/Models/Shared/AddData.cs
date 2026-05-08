@@ -1,4 +1,4 @@
-namespace VirusTotalCore.Models.Shared;
+namespace VirusTotalCore.Common.Models.Shared;
 
 /// <summary>
 /// Class is used for posting vote or comment

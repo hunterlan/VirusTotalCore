@@ -1,4 +1,4 @@
-﻿namespace VirusTotalCore.Models.Shared;
+﻿namespace VirusTotalCore.Common.Models.Shared;
 
 /// <summary>
 /// Contains link to itself. Also might contain a link to next N comments or votes

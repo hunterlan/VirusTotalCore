@@ -1,4 +1,4 @@
-﻿using VirusTotalCore.Models.Shared;
+﻿using VirusTotalCore.Common.Models.Shared;
 
 namespace VirusTotalCore.Models.Comments;
 
