@@ -1,3 +1,4 @@
+using VirusTotalCore.Common;
 using VirusTotalCore.Models.Comments;
 using VirusTotalCore.Models.Comments.Vote;
 

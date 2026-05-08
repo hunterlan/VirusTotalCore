@@ -1,4 +1,4 @@
-﻿namespace VirusTotalCore.Models.Shared;
+﻿namespace VirusTotalCore.Common.Models.Shared;
 
 public class AttributeLinks
 {

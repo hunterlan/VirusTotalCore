@@ -1,4 +1,5 @@
-using VirusTotalCore.Enums;
+using VirusTotalCore.Common;
+using VirusTotalCore.Common.Enums;
 using VirusTotalCore.Models.Analysis;
 using VirusTotalCore.Models.Analysis.URL;
 using VirusTotalCore.Models.Comments;

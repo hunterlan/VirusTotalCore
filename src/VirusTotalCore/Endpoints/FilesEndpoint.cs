@@ -1,3 +1,4 @@
+using VirusTotalCore.Common;
 ﻿using System.Security.Cryptography;
 using System.Text.Json;
 using VirusTotalCore.Models.Analysis;

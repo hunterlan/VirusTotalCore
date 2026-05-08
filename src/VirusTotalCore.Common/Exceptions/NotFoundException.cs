@@ -1,4 +1,4 @@
-namespace VirusTotalCore.Exceptions;
+namespace VirusTotalCore.Common.Exceptions;
 
 /// <summary>
 /// Exception for NotFoundError response: "The requested resource was not found."

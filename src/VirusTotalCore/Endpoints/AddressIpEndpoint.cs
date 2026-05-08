@@ -1,5 +1,6 @@
-using VirusTotalCore.Enums;
-using VirusTotalCore.Exceptions;
+using VirusTotalCore.Common;
+using VirusTotalCore.Common.Enums;
+using VirusTotalCore.Common.Exceptions;
 using VirusTotalCore.Models.Analysis;
 using VirusTotalCore.Models.Analysis.IP;
 using VirusTotalCore.Models.Comments;

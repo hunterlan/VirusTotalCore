@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using VirusTotalCore.Enums;
-using VirusTotalCore.Models.Shared;
+using VirusTotalCore.Common.Enums;
+using VirusTotalCore.Common.Models.Shared;
 
 namespace VirusTotalCore.Models.Votes;
 

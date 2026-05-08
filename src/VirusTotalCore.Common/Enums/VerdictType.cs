@@ -1,4 +1,4 @@
-namespace VirusTotalCore.Enums;
+namespace VirusTotalCore.Common.Enums;
 
 public enum VerdictType
 {
