@@ -3,19 +3,23 @@ using VirusTotalCore.Common.Enums;
 using VirusTotalCore.Common.Models.Analysis;
 using VirusTotalCore.Common.Models.Comments;
 using VirusTotalCore.Common.Models.Votes;
-using VirusTotalCore.Models.Analysis.Domains;
+using VirusTotalCore.Domains.Models;
 
-namespace VirusTotalCore.Endpoints;
+namespace VirusTotalCore.Domains.Endpoints;
 
-public class DomainsEndpoint : BaseEndpoint
+/// <summary>
+/// Analyse domains, get reports, comments and votes about them.
+/// </summary>
+public sealed class DomainsEndpoint : BaseEndpoint, IDomainsEndpoint
 {
     public DomainsEndpoint(string apiKey) : base(apiKey, "domains") { }
     public DomainsEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "domains") { }
+
     /// <summary>
-    /// Get report about specific domain
+    /// Get report about a specific domain.
     /// </summary>
     /// <param name="domain">Domain name</param>
-    /// <param name="cancellationToken">Cancelattion token</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns cref="DomainReportAttributes">Analysis report</returns>
     public async Task<AnalysisReport<DomainReportAttributes>> GetReport(string domain, CancellationToken? cancellationToken)
     {
@@ -24,7 +28,7 @@ public class DomainsEndpoint : BaseEndpoint
     }
 
     /// <summary>
-    /// Get comments about domain.
+    /// Get comments about a domain.
     /// </summary>
     /// <param name="domain">Domain name</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -32,7 +36,7 @@ public class DomainsEndpoint : BaseEndpoint
     /// <param name="limit">Number of items to retrieve. Default value is 10.</param>
     /// <returns>List of comments with metadata</returns>
     /// <exception cref="Exception"></exception>
-    public async Task<CommentData> GetComments(string domain, CancellationToken? cancellationToken, string? cursor, 
+    public async Task<CommentData> GetComments(string domain, CancellationToken? cancellationToken, string? cursor,
         int limit = 10)
     {
         var requestUrl = $"{domain}/comments?limit={limit}";
@@ -45,12 +49,12 @@ public class DomainsEndpoint : BaseEndpoint
     }
 
     /// <summary>
-    /// Add new comment about domain.
+    /// Add a new comment about a domain.
     /// Any word starting with # in your comment's text will be considered a tag,
     /// and added to the comment's tag attribute.
     /// </summary>
     /// <param name="domain">Domain name</param>
-    /// <param name="comment">Comment content.</param>
+    /// <param name="comment">Comment content</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Comment data</returns>
     /// <exception cref="Exception"></exception>
@@ -63,13 +67,16 @@ public class DomainsEndpoint : BaseEndpoint
         return await PostAsync<Comment>(requestUrl, rootPropertyName, newComment, cancellationToken ?? new CancellationToken());
     }
 
+    /// <summary>
+    /// Get DNS resolution data for the given domain.
+    /// </summary>
     public void GetDnsResolution()
     {
         throw new NotImplementedException();
     }
 
     /// <summary>
-    /// Get votes data on domain
+    /// Get votes data on a domain.
     /// </summary>
     /// <param name="domain">Domain name</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -82,9 +89,9 @@ public class DomainsEndpoint : BaseEndpoint
     }
 
     /// <summary>
-    /// Add user's vote to specific domain.
+    /// Add a user vote to a specific domain.
     /// </summary>
-    /// <param name="domain">Domain name.</param>
+    /// <param name="domain">Domain name</param>
     /// <param name="verdict">"Harmless" or "Malicious"</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <exception cref="Exception"></exception>
@@ -92,7 +99,19 @@ public class DomainsEndpoint : BaseEndpoint
     {
         var newVote = new AddVote(verdict);
         var requestUrl = $"{domain}/votes";
-        
+
         await PostAsync(requestUrl, newVote, cancellationToken ?? new CancellationToken());
+    }
+
+    public override async Task<string> GetRelatedObjects(string domain, string relationship, string? cursor,
+        CancellationToken? cancellationToken, int limit = 10)
+    {
+        return await base.GetRelatedObjects(domain, relationship, cursor, cancellationToken, limit);
+    }
+
+    public new async Task<string> GetRelatedDescriptors(string domain, string relationship, string? cursor,
+        CancellationToken? cancellationToken, int limit = 10)
+    {
+        return await base.GetRelatedDescriptors(domain, relationship, cursor, cancellationToken, limit);
     }
 }
