@@ -1,4 +1,6 @@
-﻿namespace VirusTotalCore.Models.Analysis.File;
+using VirusTotalCore.Common.Models.Analysis;
+
+namespace VirusTotalCore.Models.Analysis.File;
 
 public class FileReportAttributes
 {

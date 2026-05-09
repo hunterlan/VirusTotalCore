@@ -1,4 +1,6 @@
-﻿namespace VirusTotalCore.Models.Analysis.URL;
+using VirusTotalCore.Common.Models.Analysis;
+
+namespace VirusTotalCore.Models.Analysis.URL;
 
 /// <summary>
 /// Information about URL.

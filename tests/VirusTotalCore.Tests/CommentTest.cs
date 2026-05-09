@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using VirusTotalCore.Endpoints;
-using VirusTotalCore.Models.Comments;
-using VirusTotalCore.Models.Comments.Vote;
+using VirusTotalCore.Common.Models.Comments;
+using VirusTotalCore.Common.Models.Comments.Vote;
 
 namespace VirusTotalCore.Tests;
 
