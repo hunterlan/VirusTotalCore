@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
+    <Title>VirusTotalCore.Urls</Title>
+    <Authors>Kostiantyn Sharykin</Authors>
+    <Description>URL scanning library for VirusTotal — standalone package for scanning URLs and retrieving reports, comments and votes.</Description>
+    <Copyright>MIT License</Copyright>
+    <PackageLicenseUrl>https://github.com/hunterlan/VirusTotalCore/blob/main/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/hunterlan/VirusTotalCore</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>12</LangVersion>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../VirusTotalCore.Common/VirusTotalCore.Common.csproj" />
+  </ItemGroup>
+
+</Project>
