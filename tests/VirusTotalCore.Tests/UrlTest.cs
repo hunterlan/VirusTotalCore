@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using VirusTotalCore.Endpoints;
+using VirusTotalCore.Urls.Endpoints;
 
 namespace VirusTotalCore.Tests;
 
