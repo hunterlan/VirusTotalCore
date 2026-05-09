@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using VirusTotalCore.Endpoints;
 using VirusTotalCore.IpAddresses.Endpoints;
 
 namespace VirusTotalCore.Tests;
