@@ -32,6 +32,7 @@
       <ProjectReference Include="..\..\src\VirusTotalCore.Common\VirusTotalCore.Common.csproj" />
       <ProjectReference Include="..\..\src\VirusTotalCore.IpAddresses\VirusTotalCore.IpAddresses.csproj" />
       <ProjectReference Include="..\..\src\VirusTotalCore.Urls\VirusTotalCore.Urls.csproj" />
+      <ProjectReference Include="..\..\src\VirusTotalCore.Files\VirusTotalCore.Files.csproj" />
     </ItemGroup>
 
     <ItemGroup>

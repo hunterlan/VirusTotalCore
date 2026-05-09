@@ -1,8 +1,8 @@
 using VirusTotalCore.Common.Models.Analysis;
 
-namespace VirusTotalCore.Models.Analysis.File;
+namespace VirusTotalCore.Files.Models;
 
-public class FileReportAttributes
+public sealed class FileReportAttributes
 {
     public required string TypeDescription { get; set; }
     /// <summary>
