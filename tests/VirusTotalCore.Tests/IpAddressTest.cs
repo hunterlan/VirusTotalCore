@@ -1,7 +1,8 @@
 using Microsoft.Extensions.Configuration;
-using VirusTotalCore.Endpoints;
 using VirusTotalCore.Common.Exceptions;
-using VirusTotalCore.Models.Comments;
+using VirusTotalCore.Common.Models.Comments;
+using VirusTotalCore.Endpoints;
+using VirusTotalCore.IpAddresses.Endpoints;
 
 namespace VirusTotalCore.Tests;
 
@@ -10,7 +11,7 @@ public class IpAddressTest
     private const string IpAddress = "8.8.8.8";
     private const string GraphRelationship = "graphs";
     private string ApiKey { get; }
-    private readonly AddressIpEndpoint _endpoint;
+    private readonly VirusTotalCore.IpAddresses.Endpoints.AddressIpEndpoint _endpoint;
 
     public IpAddressTest()
     {

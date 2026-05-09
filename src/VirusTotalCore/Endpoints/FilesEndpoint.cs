@@ -1,7 +1,7 @@
 using VirusTotalCore.Common;
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 using System.Text.Json;
-using VirusTotalCore.Models.Analysis;
+using VirusTotalCore.Common.Models.Analysis;
 using VirusTotalCore.Models.Analysis.File;
 
 namespace VirusTotalCore.Endpoints;
