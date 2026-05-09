@@ -28,12 +28,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\VirusTotalCore\VirusTotalCore.csproj" />
       <ProjectReference Include="..\..\src\VirusTotalCore.Common\VirusTotalCore.Common.csproj" />
       <ProjectReference Include="..\..\src\VirusTotalCore.IpAddresses\VirusTotalCore.IpAddresses.csproj" />
       <ProjectReference Include="..\..\src\VirusTotalCore.Urls\VirusTotalCore.Urls.csproj" />
       <ProjectReference Include="..\..\src\VirusTotalCore.Files\VirusTotalCore.Files.csproj" />
       <ProjectReference Include="..\..\src\VirusTotalCore.Domains\VirusTotalCore.Domains.csproj" />
+      <ProjectReference Include="..\..\src\VirusTotalCore.Comments\VirusTotalCore.Comments.csproj" />
     </ItemGroup>
 
     <ItemGroup>

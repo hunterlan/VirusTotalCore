@@ -2,16 +2,17 @@ using VirusTotalCore.Common;
 using VirusTotalCore.Common.Models.Comments;
 using VirusTotalCore.Common.Models.Comments.Vote;
 
-namespace VirusTotalCore.Endpoints;
+namespace VirusTotalCore.Comments.Endpoints;
 
 /// <summary>
 /// Get comments, delete own comments or add votes to comment.
 /// </summary>
 /// <param name="apiKey">User's API key</param>
-public class CommentEndpoint : BaseEndpoint
+public class CommentEndpoint : BaseEndpoint, ICommentEndpoint
 {
     public CommentEndpoint(string apiKey) : base(apiKey, "comments") { }
     public CommentEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "comments") { }
+
     /// <summary>
     /// This endpoint retrieves information about the latest comments added to VirusTotal.
     /// </summary>
@@ -72,7 +73,7 @@ public class CommentEndpoint : BaseEndpoint
     {
         var newVote = new { Data = verdict.ToString().ToLower() };
         var requestUrl = $"{commentId}/vote";
-        
+
         await PostAsync(requestUrl, newVote, cancellationToken ?? new CancellationToken());
     }
 

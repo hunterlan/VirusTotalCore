@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
+using VirusTotalCore.Comments.Endpoints;
 using VirusTotalCore.Domains.Endpoints;
-using VirusTotalCore.Endpoints;
 
 namespace VirusTotalCore.Tests;
 
