@@ -1,36 +1,35 @@
-using VirusTotalCore.Common;
 using System.Security.Cryptography;
 using System.Text.Json;
+using VirusTotalCore.Common;
 using VirusTotalCore.Common.Models.Analysis;
-using VirusTotalCore.Models.Analysis.File;
+using VirusTotalCore.Files.Models;
 
-namespace VirusTotalCore.Endpoints;
+namespace VirusTotalCore.Files.Endpoints;
 
 /// <summary>
-/// Send files for scanning and get report about them.
+/// Send files for scanning and get reports about them.
 /// </summary>
-/// <param name="apiKey">User's API key.</param>
-public class FilesEndpoint : BaseEndpoint
+public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
 {
     public FilesEndpoint(string apiKey) : base(apiKey, "files") { }
     public FilesEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "files") { }
+
     /// <summary>
-    /// Size of file is allowed to post without requesting an URL for it (32 MB in bytes).
+    /// Size of file allowed to post without requesting an upload URL (32 MB in bytes).
     /// </summary>
     private const int MaxSmallSizeBytes = 33554432;
+
     /// <summary>
-    /// Allows to send file for scanning.
-    /// If file is less than 32 MB, it will use default URL.
-    /// If file is bigger, than it will call function <see cref="GetUrlForPost"/> to get URL for sending huge file.
+    /// Allows sending a file for scanning.
+    /// If the file is less than 32 MB, it uses the default URL.
+    /// If larger, it calls <see cref="GetUrlForPost"/> to obtain an upload URL for the large file.
     /// </summary>
     /// <param name="pathToFile">File path.</param>
-    /// <param name="password">Optional. Password to file.</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>SHA256 hash for getting report.</returns>
-    /// <exception cref="FileNotFoundException">File doesn't exists.</exception>
-    /// <exception cref="Exception"></exception>
-    public async Task<string> PostFile(string pathToFile, string? password,
-        CancellationToken? cancellationToken)
+    /// <param name="password">Optional password for the file.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>SHA256 hash of the submitted file.</returns>
+    /// <exception cref="FileNotFoundException">File does not exist.</exception>
+    public async Task<string> PostFile(string pathToFile, string? password, CancellationToken? cancellationToken)
     {
         cancellationToken ??= new CancellationToken();
         var url = HttpClient.BaseAddress! + CurrentEndpointName;
@@ -59,47 +58,46 @@ public class FilesEndpoint : BaseEndpoint
         content.Add(new StreamContent(sendStream), "file", Path.GetFileName(sendStream.Name));
         if (password is not null)
         {
-            content.Add(new StringContent(password), "password");    
+            content.Add(new StringContent(password), "password");
         }
-        
+
         requestMessage.Content = content;
-    
+
         using var response = await HttpClient.SendAsync(requestMessage);
         var resultJson = await response.Content.ReadAsStringAsync(cancellationToken.Value);
         if (response is not { IsSuccessStatusCode: true })
         {
             throw HandleError(resultJson);
         }
-        
+
         var sha256 = SHA256.Create();
         byte[] hashBytes;
         await using (var localStream = File.OpenRead(pathToFile))
         {
             hashBytes = await sha256.ComputeHashAsync(localStream);
         }
-        
+
         return System.Text.Encoding.Default.GetString(hashBytes);
     }
 
     /// <summary>
-    /// Get URL for sending a file with size more than 32 MB.
+    /// Get an upload URL for files larger than 32 MB.
     /// </summary>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>URL for sending file.</returns>
-    /// <exception cref="Exception"></exception>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>URL to use for the large file upload.</returns>
     private async Task<string> GetUrlForPost(CancellationToken? cancellationToken)
     {
         cancellationToken ??= new CancellationToken();
         var requestUrl = "upload_url";
         const string rootPropertyName = "data";
-        
+
         using var response = await HttpClient.GetAsync(requestUrl, cancellationToken.Value);
         var resultJson = await response.Content.ReadAsStringAsync(cancellationToken.Value);
         if (response is not { IsSuccessStatusCode: true })
         {
             throw HandleError(resultJson);
         }
-        
+
         var resultJsonDocument = JsonDocument.Parse(resultJson);
         var result = resultJsonDocument.RootElement.GetProperty(rootPropertyName).GetString()!;
 
@@ -107,12 +105,11 @@ public class FilesEndpoint : BaseEndpoint
     }
 
     /// <summary>
-    /// Get report about file.
+    /// Get the analysis report for a file.
     /// </summary>
-    /// <param name="fileHash">Hash of file.</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns cref="FileReportAttributes">Analysis report</returns>
-    /// <exception cref="Exception"></exception>
+    /// <param name="fileHash">MD5, SHA-1, or SHA-256 hash of the file.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns cref="AnalysisReport{FileReportAttributes}">Analysis report.</returns>
     public async Task<AnalysisReport<FileReportAttributes>> GetReport(string fileHash, CancellationToken? cancellationToken)
     {
         const string rootPropertyName = "data";

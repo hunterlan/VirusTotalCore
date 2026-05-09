@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using VirusTotalCore.Endpoints;
+using VirusTotalCore.Files.Endpoints;
 using Xunit.Abstractions;
 
 namespace VirusTotalCore.Tests;
