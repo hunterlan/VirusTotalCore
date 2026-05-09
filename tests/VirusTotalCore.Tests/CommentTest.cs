@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using VirusTotalCore.Domains.Endpoints;
 using VirusTotalCore.Endpoints;
 using VirusTotalCore.Common.Models.Comments;
 using VirusTotalCore.Common.Models.Comments.Vote;
