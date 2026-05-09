@@ -3,38 +3,38 @@ using VirusTotalCore.Common.Enums;
 using VirusTotalCore.Common.Models.Analysis;
 using VirusTotalCore.Common.Models.Comments;
 using VirusTotalCore.Common.Models.Votes;
-using VirusTotalCore.Models.Analysis.URL;
+using VirusTotalCore.Urls.Models;
 
-namespace VirusTotalCore.Endpoints;
+namespace VirusTotalCore.Urls.Endpoints;
 
 /// <summary>
-/// Analyse URLs, get reports, comments and votes about it and owns.
+/// Analyse URLs, get reports, comments and votes about it and owners.
 /// </summary>
 /// <param name="apiKey">User's API key.</param>
-public class UrlEndpoint : BaseEndpoint
+public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
 {
     public UrlEndpoint(string apiKey) : base(apiKey, "urls") { }
     public UrlEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "urls") { }
-    // TODO: Rewrite it
+
     /// <summary>
-    /// Request to scan URL. 
+    /// Request to scan a URL and submit it for analysis.
     /// </summary>
     /// <param name="url">URL to scan</param>
     /// <param name="cancellationToken">Cancellation token</param>
     private async Task Scan(string url, CancellationToken? cancellationToken)
     {
-        var client = new HttpClient();
-        var request = new HttpRequestMessage(HttpMethod.Post, "https://www.virustotal.com/api/v3/urls");
-        request.Headers.Add("x-apikey", ApiKey);
         var content = new MultipartFormDataContent();
         content.Add(new StringContent(url), "url");
-        request.Content = content;
-        using var response = await client.SendAsync(request);
-        response.EnsureSuccessStatusCode();
+        using var response = await HttpClient.PostAsync(CurrentEndpointName, content, cancellationToken ?? new CancellationToken());
+        var resultJson = await response.Content.ReadAsStringAsync(cancellationToken ?? new CancellationToken());
+        if (response is not { IsSuccessStatusCode: true })
+        {
+            throw HandleError(resultJson);
+        }
     }
 
     /// <summary>
-    /// Get report about url
+    /// Get report about a URL. Submits for scanning if not already cached.
     /// </summary>
     /// <param name="url">URL to scan</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -47,13 +47,8 @@ public class UrlEndpoint : BaseEndpoint
         return await GetAsync<AnalysisReport<UrlReportAttributes>>(ToBase64String(url), rootPropertyName, cancellationToken ?? new CancellationToken());
     }
 
-    public void Rescan(string id)
-    {
-        throw new NotImplementedException();
-    }
-
     /// <summary>
-    /// Get comments about URL.
+    /// Get comments about a URL.
     /// </summary>
     /// <param name="id">URL identifier</param>
     /// <param name="cursor">Continuation cursor</param>
@@ -61,8 +56,7 @@ public class UrlEndpoint : BaseEndpoint
     /// <param name="limit">Maximum number of comments to retrieve. By default is 10.</param>
     /// <returns>List of comments with metadata.</returns>
     /// <exception cref="Exception"></exception>
-    public async Task<CommentData> GetComments(string id, string? cursor, CancellationToken? cancellationToken,
-        int limit = 10)
+    public async Task<CommentData> GetComments(string id, string? cursor, CancellationToken? cancellationToken, int limit = 10)
     {
         var requestUrl = $"{id}/comments?limit={limit}";
         if (cursor is not null)
@@ -74,7 +68,7 @@ public class UrlEndpoint : BaseEndpoint
     }
 
     /// <summary>
-    /// Add user's comment to URL.
+    /// Add user's comment to a URL.
     /// </summary>
     /// <param name="id">URL identifier</param>
     /// <param name="comment">Comment content</param>
@@ -91,7 +85,7 @@ public class UrlEndpoint : BaseEndpoint
     }
 
     /// <summary>
-    /// Get votes on URL.
+    /// Get votes on a URL.
     /// </summary>
     /// <param name="id">URL identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -103,9 +97,8 @@ public class UrlEndpoint : BaseEndpoint
         return await GetAsync<VoteData>(requestUrl, cancellationToken ?? new CancellationToken());
     }
 
-    
     /// <summary>
-    /// Add user's vote to URL.
+    /// Add user's vote to a URL.
     /// </summary>
     /// <param name="id">URL identifier</param>
     /// <param name="verdict">"Harmless" or "Malicious"</param>
@@ -115,7 +108,7 @@ public class UrlEndpoint : BaseEndpoint
     {
         var newVote = new AddVote(verdict);
         var requestUrl = $"{id}/votes";
-        
+
         await PostAsync(requestUrl, newVote, cancellationToken ?? new CancellationToken());
     }
 
@@ -125,7 +118,7 @@ public class UrlEndpoint : BaseEndpoint
         return await base.GetRelatedObjects(id, relationship, cursor, cancellationToken, limit);
     }
 
-    private static string ToBase64String(string plainText) 
+    private static string ToBase64String(string plainText)
     {
         var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
         return System.Convert.ToBase64String(plainTextBytes);
