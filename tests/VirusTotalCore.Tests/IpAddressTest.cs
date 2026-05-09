@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
+using VirusTotalCore.Comments.Endpoints;
 using VirusTotalCore.Common.Exceptions;
 using VirusTotalCore.Common.Models.Comments;
-using VirusTotalCore.Endpoints;
 using VirusTotalCore.IpAddresses.Endpoints;
 
 namespace VirusTotalCore.Tests;
