@@ -1,37 +1,37 @@
 using VirusTotalCore.Common.Models.Analysis;
 using VirusTotalCore.Common.Models.Certificates.SSL;
 
-namespace VirusTotalCore.Models.Analysis.Domains;
+namespace VirusTotalCore.Domains.Models;
 
-public class DomainReportAttributes
+public sealed class DomainReportAttributes
 {
     public required Dictionary<string, string> Categories { get; set; }
-    
+
     public long? CreationDate { get; set; }
-    
+
     /// <summary>
     /// IP address' JARM hash.
     /// </summary>
     public string? Jarm { get; set; }
-    
+
     /// <summary>
-    /// UTC timestamp representing last time the IP was scanned.
+    /// UTC timestamp representing last time the domain was scanned.
     /// </summary>
     public int LastAnalysisDate { get; set; }
-    
+
     /// <summary>
-    /// Number of different results from this scans.
+    /// Number of different results from this scan.
     /// </summary>
     public required ScanAnalysisStats LastAnalysisStats { get; set; }
-    
+
     /// <summary>
     /// Result from URL scanners. dict with scanner name as key and a dict with notes/result from that scanner as value.
     /// Key presents engine name.
     /// </summary>
     public required Dictionary<string, EngineAnalysisResult> LastAnalysisResults { get; set; }
-    
+
     /// <summary>
-    /// SSL Certificate information for IP.
+    /// SSL Certificate information for domain.
     /// </summary>
     public SslCertificate? LastHttpsCertificate { get; set; }
 
@@ -39,19 +39,19 @@ public class DomainReportAttributes
     /// Date when the certificate shown in <see cref="LastHttpsCertificate"/> was retrieved by VirusTotal. UTC timestamp.
     /// </summary>
     public int? LastHttpsCertificateDate { get; set; }
-    
+
     public string? Registrar { get; set; }
-    
+
     /// <summary>
     /// Identificative attributes.
     /// </summary>
     public List<string>? Tags { get; set; }
-    
+
     /// <summary>
     /// Unweighted number of total votes from the community, divided in "harmless" and "malicious".
     /// </summary>
     public Votes TotalVotes { get; set; } = new();
-    
+
     /// <summary>
     /// Whois information as returned from the pertinent whois server.
     /// </summary>
