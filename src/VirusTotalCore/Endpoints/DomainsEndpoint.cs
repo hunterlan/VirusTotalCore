@@ -1,9 +1,9 @@
 using VirusTotalCore.Common;
 using VirusTotalCore.Common.Enums;
-using VirusTotalCore.Models.Analysis;
+using VirusTotalCore.Common.Models.Analysis;
+using VirusTotalCore.Common.Models.Comments;
+using VirusTotalCore.Common.Models.Votes;
 using VirusTotalCore.Models.Analysis.Domains;
-using VirusTotalCore.Models.Comments;
-using VirusTotalCore.Models.Votes;
 
 namespace VirusTotalCore.Endpoints;
 

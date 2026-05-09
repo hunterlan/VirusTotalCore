@@ -1,4 +1,5 @@
-using VirusTotalCore.Models.Certificates.SSL;
+using VirusTotalCore.Common.Models.Analysis;
+using VirusTotalCore.Common.Models.Certificates.SSL;
 
 namespace VirusTotalCore.Models.Analysis.Domains;
 
