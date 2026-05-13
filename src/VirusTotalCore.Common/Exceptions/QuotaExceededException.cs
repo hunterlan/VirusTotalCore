@@ -1,3 +1,3 @@
 namespace VirusTotalCore.Common.Exceptions;
 
-public class QuotaExceededException(string message) : Exception(message);
+public class QuotaExceededException(string message) : VirusTotalException(message);

@@ -1,3 +1,3 @@
 namespace VirusTotalCore.Common.Exceptions;
 
-public class UnselectiveContentQueryException(string message) : Exception(message);
+public class UnselectiveContentQueryException(string message) : VirusTotalException(message);
