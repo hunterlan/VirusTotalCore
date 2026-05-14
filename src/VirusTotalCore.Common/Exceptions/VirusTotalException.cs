@@ -4,4 +4,4 @@ namespace VirusTotalCore.Common.Exceptions;
 /// Base class for all VirusTotal-specific exceptions.
 /// </summary>
 /// <param name="message">Error message</param>
-public abstract class VirusTotalException(string message) : Exception(message);
+public class VirusTotalException(string message) : Exception(message);

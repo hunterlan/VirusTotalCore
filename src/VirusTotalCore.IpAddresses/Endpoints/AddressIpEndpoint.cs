@@ -22,6 +22,11 @@ public class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
     /// <exception cref="NotFoundException">Given IP address not found.</exception>
     public async Task<AnalysisReport<AddressReportAttributes>> GetReport(string ipAddress, CancellationToken? cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(ipAddress))
+        {
+            throw new NotFoundException($"The requested resource was not found. (Parameter '{nameof(ipAddress)}')");
+        }
+
         const string rootPropertyName = "data";
         return await GetAsync<AnalysisReport<AddressReportAttributes>>(ipAddress, rootPropertyName, cancellationToken ?? new CancellationToken());
     }

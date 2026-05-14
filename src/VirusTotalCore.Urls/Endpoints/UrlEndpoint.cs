@@ -23,14 +23,9 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
     /// <param name="cancellationToken">Cancellation token</param>
     private async Task Scan(string url, CancellationToken? cancellationToken)
     {
-        var content = new MultipartFormDataContent();
+        using var content = new MultipartFormDataContent();
         content.Add(new StringContent(url), "url");
-        using var response = await HttpClient.PostAsync(CurrentEndpointName, content, cancellationToken ?? new CancellationToken());
-        var resultJson = await response.Content.ReadAsStringAsync(cancellationToken ?? new CancellationToken());
-        if (response is not { IsSuccessStatusCode: true })
-        {
-            throw HandleError(resultJson);
-        }
+        await PostMultipartAsync(null, content, cancellationToken ?? new CancellationToken());
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
 using System.Security.Cryptography;
-using System.Text.Json;
 using VirusTotalCore.Common;
 using VirusTotalCore.Common.Models.Analysis;
 using VirusTotalCore.Files.Models;
@@ -14,9 +13,6 @@ public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
     public FilesEndpoint(string apiKey) : base(apiKey, "files") { }
     public FilesEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "files") { }
 
-    /// <summary>
-    /// Size of file allowed to post without requesting an upload URL (32 MB in bytes).
-    /// </summary>
     private const int MaxSmallSizeBytes = 33554432;
 
     /// <summary>
@@ -32,27 +28,21 @@ public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
     public async Task<string> PostFile(string pathToFile, string? password, CancellationToken? cancellationToken)
     {
         cancellationToken ??= new CancellationToken();
-        var url = HttpClient.BaseAddress! + CurrentEndpointName;
 
-        if (File.Exists(pathToFile))
-        {
-            var fileInfo = new FileInfo(pathToFile);
-            var fileSizeBytes = fileInfo.Length;
-
-            if (fileSizeBytes > MaxSmallSizeBytes)
-            {
-                //https://github.com/aio-libs/aiohttp/issues/4678
-                //Exception: Malformed multipart body.
-                url = await GetUrlForPost(cancellationToken);
-            }
-        }
-        else
+        if (!File.Exists(pathToFile))
         {
             throw new FileNotFoundException($"Unable to find the specified file. Path is {pathToFile}");
         }
 
+        string? uploadRequestUrl = null;
+        var fileInfo = new FileInfo(pathToFile);
+
+        if (fileInfo.Length > MaxSmallSizeBytes)
+        {
+            uploadRequestUrl = await GetUrlForPost(cancellationToken.Value);
+        }
+
         await using var sendStream = File.OpenRead(pathToFile);
-        using var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
         using var content = new MultipartFormDataContent();
 
         content.Add(new StreamContent(sendStream), "file", Path.GetFileName(sendStream.Name));
@@ -61,14 +51,7 @@ public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
             content.Add(new StringContent(password), "password");
         }
 
-        requestMessage.Content = content;
-
-        using var response = await HttpClient.SendAsync(requestMessage);
-        var resultJson = await response.Content.ReadAsStringAsync(cancellationToken.Value);
-        if (response is not { IsSuccessStatusCode: true })
-        {
-            throw HandleError(resultJson);
-        }
+        await PostMultipartAsync(uploadRequestUrl, content, cancellationToken.Value);
 
         var sha256 = SHA256.Create();
         byte[] hashBytes;
@@ -85,23 +68,10 @@ public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
     /// </summary>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>URL to use for the large file upload.</returns>
-    private async Task<string> GetUrlForPost(CancellationToken? cancellationToken)
+    private async Task<string> GetUrlForPost(CancellationToken cancellationToken)
     {
-        cancellationToken ??= new CancellationToken();
-        var requestUrl = "upload_url";
         const string rootPropertyName = "data";
-
-        using var response = await HttpClient.GetAsync(requestUrl, cancellationToken.Value);
-        var resultJson = await response.Content.ReadAsStringAsync(cancellationToken.Value);
-        if (response is not { IsSuccessStatusCode: true })
-        {
-            throw HandleError(resultJson);
-        }
-
-        var resultJsonDocument = JsonDocument.Parse(resultJson);
-        var result = resultJsonDocument.RootElement.GetProperty(rootPropertyName).GetString()!;
-
-        return result;
+        return await GetAsync<string>("upload_url", rootPropertyName, cancellationToken);
     }
 
     /// <summary>
