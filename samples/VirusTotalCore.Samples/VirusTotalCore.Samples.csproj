@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <IsPackable>false</IsPackable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/VirusTotalCore.Files/VirusTotalCore.Files.csproj" />
+    <ProjectReference Include="../../src/VirusTotalCore.Urls/VirusTotalCore.Urls.csproj" />
+    <ProjectReference Include="../../src/VirusTotalCore.IpAddresses/VirusTotalCore.IpAddresses.csproj" />
+    <ProjectReference Include="../../src/VirusTotalCore.Domains/VirusTotalCore.Domains.csproj" />
+    <ProjectReference Include="../../src/VirusTotalCore.Comments/VirusTotalCore.Comments.csproj" />
+  </ItemGroup>
+
+</Project>
