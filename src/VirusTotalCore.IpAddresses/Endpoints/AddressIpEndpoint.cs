@@ -8,7 +8,7 @@ using VirusTotalCore.IpAddresses.Models;
 
 namespace VirusTotalCore.IpAddresses.Endpoints;
 
-public class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
+public sealed class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
 {
     public AddressIpEndpoint(string apiKey) : base(apiKey, "ip_addresses") { }
     public AddressIpEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "ip_addresses") { }
