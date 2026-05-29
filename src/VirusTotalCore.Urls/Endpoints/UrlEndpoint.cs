@@ -106,12 +106,6 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
         await PostAsync(requestUrl, newVote, cancellationToken);
     }
 
-    public override async Task<string> GetRelatedObjects(string id, string relationship, string? cursor,
-        CancellationToken cancellationToken = default, int limit = 10)
-    {
-        return await base.GetRelatedObjects(id, relationship, cursor, cancellationToken, limit);
-    }
-
     private static string ToBase64String(string plainText)
     {
         var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
