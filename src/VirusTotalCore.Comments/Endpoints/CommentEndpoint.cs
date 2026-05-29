@@ -8,7 +8,7 @@ namespace VirusTotalCore.Comments.Endpoints;
 /// Get comments, delete own comments or add votes to comment.
 /// </summary>
 /// <param name="apiKey">User's API key</param>
-public class CommentEndpoint : BaseEndpoint, ICommentEndpoint
+public sealed class CommentEndpoint : BaseEndpoint, ICommentEndpoint
 {
     public CommentEndpoint(string apiKey) : base(apiKey, "comments") { }
     public CommentEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "comments") { }
