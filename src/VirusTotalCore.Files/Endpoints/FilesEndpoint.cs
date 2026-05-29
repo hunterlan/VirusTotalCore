@@ -1,5 +1,5 @@
-using System.Security.Cryptography;
 using VirusTotalCore.Common;
+using VirusTotalCore.Common.Hashing;
 using VirusTotalCore.Common.Models.Analysis;
 using VirusTotalCore.Files.Models;
 
@@ -10,8 +10,19 @@ namespace VirusTotalCore.Files.Endpoints;
 /// </summary>
 public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
 {
-    public FilesEndpoint(string apiKey) : base(apiKey, "files") { }
-    public FilesEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "files") { }
+    private readonly IFileHashProvider _hashProvider;
+
+    public FilesEndpoint(string apiKey, IFileHashProvider? hashProvider = null)
+        : base(apiKey, "files")
+    {
+        _hashProvider = hashProvider ?? new Sha256HashProvider();
+    }
+
+    public FilesEndpoint(IHttpClientFactory customHttpClient, string apiKey, IFileHashProvider? hashProvider = null)
+        : base(customHttpClient, apiKey, "files")
+    {
+        _hashProvider = hashProvider ?? new Sha256HashProvider();
+    }
 
     private const int MaxSmallSizeBytes = 33554432;
 
@@ -19,46 +30,39 @@ public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
     /// Allows sending a file for scanning.
     /// If the file is less than 32 MB, it uses the default URL.
     /// If larger, it calls <see cref="GetUrlForPost"/> to obtain an upload URL for the large file.
+    /// The stream must be seekable; the hash is computed before upload, then the stream is rewound.
     /// </summary>
-    /// <param name="pathToFile">File path.</param>
-    /// <param name="password">Optional password for the file.</param>
+    /// <param name="fileStream">Seekable stream of the file content. The caller is responsible for opening and disposing the stream.</param>
+    /// <param name="fileName">File name reported to VirusTotal (e.g. "sample.exe").</param>
+    /// <param name="password">Optional password for password-protected files.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>SHA256 hash of the submitted file.</returns>
-    /// <exception cref="FileNotFoundException">File does not exist.</exception>
-    public async Task<string> PostFile(string pathToFile, string? password, CancellationToken cancellationToken = default)
+    /// <returns>Hash of the submitted file as a lowercase hexadecimal string.</returns>
+    /// <exception cref="ArgumentException">The stream is not seekable.</exception>
+    public async Task<string> PostFile(Stream fileStream, string fileName, string? password, CancellationToken cancellationToken = default)
     {
-        if (!File.Exists(pathToFile))
+        if (!fileStream.CanSeek)
         {
-            throw new FileNotFoundException($"Unable to find the specified file. Path is {pathToFile}");
+            throw new ArgumentException("Stream must be seekable.", nameof(fileStream));
         }
 
         string? uploadRequestUrl = null;
-        var fileInfo = new FileInfo(pathToFile);
-
-        if (fileInfo.Length > MaxSmallSizeBytes)
+        if (fileStream.Length > MaxSmallSizeBytes)
         {
             uploadRequestUrl = await GetUrlForPost(cancellationToken);
         }
 
-        await using var sendStream = File.OpenRead(pathToFile);
-        using var content = new MultipartFormDataContent();
+        var hash = await _hashProvider.ComputeHashAsync(fileStream, cancellationToken);
+        fileStream.Seek(0, SeekOrigin.Begin);
 
-        content.Add(new StreamContent(sendStream), "file", Path.GetFileName(sendStream.Name));
+        using var content = new MultipartFormDataContent();
+        content.Add(new StreamContent(fileStream), "file", fileName);
         if (password is not null)
         {
             content.Add(new StringContent(password), "password");
         }
 
         await PostMultipartAsync(uploadRequestUrl, content, cancellationToken);
-
-        var sha256 = SHA256.Create();
-        byte[] hashBytes;
-        await using (var localStream = File.OpenRead(pathToFile))
-        {
-            hashBytes = await sha256.ComputeHashAsync(localStream);
-        }
-
-        return System.Text.Encoding.Default.GetString(hashBytes);
+        return hash;
     }
 
     /// <summary>

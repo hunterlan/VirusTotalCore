@@ -26,8 +26,10 @@ public class FilesTest
     public async Task PostSmallFile()
     {
         _testOutputHelper.WriteLine(Directory.GetCurrentDirectory());
-        var analysisResult = await Endpoint.PostFile($"test_files{Path.DirectorySeparatorChar}123.txt", null);
-        Assert.True(analysisResult is not null);
+        var filePath = $"test_files{Path.DirectorySeparatorChar}123.txt";
+        await using var stream = File.OpenRead(filePath);
+        var hash = await Endpoint.PostFile(stream, Path.GetFileName(filePath), null);
+        Assert.True(!string.IsNullOrEmpty(hash));
     }
 
     [Fact]

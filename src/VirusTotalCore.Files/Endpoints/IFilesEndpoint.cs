@@ -12,12 +12,14 @@ public interface IFilesEndpoint
     /// Send a file for scanning.
     /// If the file is less than 32 MB, it uses the default URL.
     /// If larger, it requests a special upload URL first.
+    /// The stream must be seekable; <see cref="ArgumentException"/> is thrown otherwise.
     /// </summary>
-    /// <param name="pathToFile">Path to the file on disk.</param>
-    /// <param name="password">Optional password for the file.</param>
+    /// <param name="fileStream">Seekable stream of the file content. The caller is responsible for opening and disposing the stream.</param>
+    /// <param name="fileName">File name reported to VirusTotal (e.g. "sample.exe").</param>
+    /// <param name="password">Optional password for password-protected files.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>SHA256 hash of the submitted file.</returns>
-    Task<string> PostFile(string pathToFile, string? password, CancellationToken cancellationToken = default);
+    /// <returns>Hash of the submitted file as a lowercase hexadecimal string, computed by the configured <see cref="VirusTotalCore.Common.Hashing.IFileHashProvider"/>.</returns>
+    Task<string> PostFile(Stream fileStream, string fileName, string? password, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the analysis report for a file by its hash.
