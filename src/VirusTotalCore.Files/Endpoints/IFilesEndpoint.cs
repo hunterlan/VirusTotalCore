@@ -17,7 +17,7 @@ public interface IFilesEndpoint
     /// <param name="password">Optional password for the file.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>SHA256 hash of the submitted file.</returns>
-    Task<string> PostFile(string pathToFile, string? password, CancellationToken? cancellationToken);
+    Task<string> PostFile(string pathToFile, string? password, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get the analysis report for a file by its hash.
@@ -25,7 +25,7 @@ public interface IFilesEndpoint
     /// <param name="fileHash">MD5, SHA-1, or SHA-256 hash of the file.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns cref="AnalysisReport{FileReportAttributes}">Analysis report.</returns>
-    Task<AnalysisReport<FileReportAttributes>> GetReport(string fileHash, CancellationToken? cancellationToken);
+    Task<AnalysisReport<FileReportAttributes>> GetReport(string fileHash, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get objects related to a file (e.g. graphs, network traffic).
@@ -36,7 +36,7 @@ public interface IFilesEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <param name="limit">Maximum number of related objects to retrieve. Default is 10.</param>
     /// <returns>JSON string of related objects.</returns>
-    Task<string> GetRelatedObjects(string fileHash, string relationship, string? cursor, CancellationToken? cancellationToken, int limit = 10);
+    Task<string> GetRelatedObjects(string fileHash, string relationship, string? cursor, CancellationToken cancellationToken = default, int limit = 10);
 
     /// <summary>
     /// Get descriptors (IDs) of objects related to a file.
@@ -47,5 +47,5 @@ public interface IFilesEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <param name="limit">Maximum number of descriptors to retrieve. Default is 10.</param>
     /// <returns>JSON string of related object descriptors.</returns>
-    Task<string> GetRelatedDescriptors(string fileHash, string relationship, string? cursor, CancellationToken? cancellationToken, int limit = 10);
+    Task<string> GetRelatedDescriptors(string fileHash, string relationship, string? cursor, CancellationToken cancellationToken = default, int limit = 10);
 }

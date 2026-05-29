@@ -16,7 +16,7 @@ public interface ICommentEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <param name="limit">Number of items to retrieve. Default value is 10.</param>
     /// <returns>Latest comments.</returns>
-    Task<CommentData> GetLatest(string? filter, string? cursor, CancellationToken? cancellationToken, int limit = 10);
+    Task<CommentData> GetLatest(string? filter, string? cursor, CancellationToken cancellationToken = default, int limit = 10);
 
     /// <summary>
     /// Get specific comment by ID.
@@ -24,14 +24,14 @@ public interface ICommentEndpoint
     /// <param name="commentId">Comment ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>Specified comment.</returns>
-    Task<Comment> Get(string commentId, CancellationToken? cancellationToken);
+    Task<Comment> Get(string commentId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete comment by ID.
     /// </summary>
     /// <param name="commentId">Comment ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    Task Delete(string commentId, CancellationToken? cancellationToken);
+    Task Delete(string commentId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Add vote to a comment.
@@ -39,7 +39,7 @@ public interface ICommentEndpoint
     /// <param name="commentId">Comment ID.</param>
     /// <param name="verdict">"Positive", "Negative" or "Abuse".</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    Task AddVote(string commentId, CommentVerdict verdict, CancellationToken? cancellationToken);
+    Task AddVote(string commentId, CommentVerdict verdict, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get related objects for the comment.
@@ -49,5 +49,5 @@ public interface ICommentEndpoint
     /// <param name="cursor">Continuation cursor.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <param name="limit">Number of items to retrieve. Default value is 10.</param>
-    Task<string> GetRelatedObjects(string commentId, string relationship, string? cursor, CancellationToken? cancellationToken, int limit = 10);
+    Task<string> GetRelatedObjects(string commentId, string relationship, string? cursor, CancellationToken cancellationToken = default, int limit = 10);
 }

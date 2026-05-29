@@ -21,10 +21,10 @@ public sealed class DomainsEndpoint : BaseEndpoint, IDomainsEndpoint
     /// <param name="domain">Domain name</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns cref="DomainReportAttributes">Analysis report</returns>
-    public async Task<AnalysisReport<DomainReportAttributes>> GetReport(string domain, CancellationToken? cancellationToken)
+    public async Task<AnalysisReport<DomainReportAttributes>> GetReport(string domain, CancellationToken cancellationToken = default)
     {
         const string rootPropertyName = "data";
-        return await GetAsync<AnalysisReport<DomainReportAttributes>>(domain, rootPropertyName, cancellationToken ?? new CancellationToken());
+        return await GetAsync<AnalysisReport<DomainReportAttributes>>(domain, rootPropertyName, cancellationToken);
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public sealed class DomainsEndpoint : BaseEndpoint, IDomainsEndpoint
     /// <param name="limit">Number of items to retrieve. Default value is 10.</param>
     /// <returns>List of comments with metadata</returns>
     /// <exception cref="Exception"></exception>
-    public async Task<CommentData> GetComments(string domain, CancellationToken? cancellationToken, string? cursor,
+    public async Task<CommentData> GetComments(string domain, string? cursor, CancellationToken cancellationToken = default,
         int limit = 10)
     {
         var requestUrl = $"{domain}/comments?limit={limit}";
@@ -45,7 +45,7 @@ public sealed class DomainsEndpoint : BaseEndpoint, IDomainsEndpoint
             requestUrl += $"&cursor={cursor}";
         }
 
-        return await GetAsync<CommentData>(requestUrl, cancellationToken ?? new CancellationToken());
+        return await GetAsync<CommentData>(requestUrl, cancellationToken);
     }
 
     /// <summary>
@@ -58,13 +58,13 @@ public sealed class DomainsEndpoint : BaseEndpoint, IDomainsEndpoint
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Comment data</returns>
     /// <exception cref="Exception"></exception>
-    public async Task<Comment> AddComment(string domain, string comment, CancellationToken? cancellationToken)
+    public async Task<Comment> AddComment(string domain, string comment, CancellationToken cancellationToken = default)
     {
         const string rootPropertyName = "data";
         var newComment = new AddComment(comment);
         var requestUrl = $"{domain}/comments";
 
-        return await PostAsync<Comment>(requestUrl, rootPropertyName, newComment, cancellationToken ?? new CancellationToken());
+        return await PostAsync<Comment>(requestUrl, rootPropertyName, newComment, cancellationToken);
     }
 
     /// <summary>
@@ -82,10 +82,10 @@ public sealed class DomainsEndpoint : BaseEndpoint, IDomainsEndpoint
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Votes with metadata</returns>
     /// <exception cref="Exception"></exception>
-    public async Task<VoteData> GetVotes(string domain, CancellationToken? cancellationToken)
+    public async Task<VoteData> GetVotes(string domain, CancellationToken cancellationToken = default)
     {
         var requestUrl = $"{domain}/votes";
-        return await GetAsync<VoteData>(requestUrl, cancellationToken ?? new CancellationToken());
+        return await GetAsync<VoteData>(requestUrl, cancellationToken);
     }
 
     /// <summary>
@@ -95,22 +95,22 @@ public sealed class DomainsEndpoint : BaseEndpoint, IDomainsEndpoint
     /// <param name="verdict">"Harmless" or "Malicious"</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <exception cref="Exception"></exception>
-    public async Task AddVote(string domain, VerdictType verdict, CancellationToken? cancellationToken)
+    public async Task AddVote(string domain, VerdictType verdict, CancellationToken cancellationToken = default)
     {
         var newVote = new AddVote(verdict);
         var requestUrl = $"{domain}/votes";
 
-        await PostAsync(requestUrl, newVote, cancellationToken ?? new CancellationToken());
+        await PostAsync(requestUrl, newVote, cancellationToken);
     }
 
     public override async Task<string> GetRelatedObjects(string domain, string relationship, string? cursor,
-        CancellationToken? cancellationToken, int limit = 10)
+        CancellationToken cancellationToken = default, int limit = 10)
     {
         return await base.GetRelatedObjects(domain, relationship, cursor, cancellationToken, limit);
     }
 
     public new async Task<string> GetRelatedDescriptors(string domain, string relationship, string? cursor,
-        CancellationToken? cancellationToken, int limit = 10)
+        CancellationToken cancellationToken = default, int limit = 10)
     {
         return await base.GetRelatedDescriptors(domain, relationship, cursor, cancellationToken, limit);
     }

@@ -26,27 +26,27 @@ public class IpAddressTest
     [Fact]
     public async Task IncorrectIpAddressReport()
     {
-        await Assert.ThrowsAsync<NotFoundException>(() => _endpoint.GetReport("", null));
+        await Assert.ThrowsAsync<NotFoundException>(() => _endpoint.GetReport("", default));
     }
 
     [Fact]
     public async Task IpAddressReport()
     {
-        var report = await _endpoint.GetReport(IpAddress, new CancellationToken());
+        var report = await _endpoint.GetReport(IpAddress);
         Assert.True(report is { Id: IpAddress, Type: "ip_address" });
     }
 
     [Fact]
     public async Task IpAddressComments()
     {
-        var ipComment = await _endpoint.GetComments(IpAddress, null, new CancellationToken());
+        var ipComment = await _endpoint.GetComments(IpAddress, null);
         Assert.True(ipComment.Comments.Count() is 10);
     }
 
     [Fact]
     public async Task IpAddressVotes()
     {
-        var ipVotes = await _endpoint.GetVotes(IpAddress, new CancellationToken());
+        var ipVotes = await _endpoint.GetVotes(IpAddress);
         Assert.True(ipVotes.Data.Any() && ipVotes.Data.First().Attributes is not null);
     }
     
@@ -54,14 +54,14 @@ public class IpAddressTest
     public async Task CatchErrorOnIncorrectPostComment()
     {
         await Assert.ThrowsAsync<BadRequestException>(() =>
-            _endpoint.AddComment("8.8.8.8", "", new CancellationToken()));
+            _endpoint.AddComment("8.8.8.8", ""));
     }
 
     [Fact]
     public async Task DuplicateErrorPostComment()
     {
         await Assert.ThrowsAsync<AlreadyExistsException>(() =>
-            _endpoint.AddComment(IpAddress, "Lorem ipsum dolor sit ...", new CancellationToken()));
+            _endpoint.AddComment(IpAddress, "Lorem ipsum dolor sit ..."));
     }
     
     [Fact]
@@ -69,7 +69,7 @@ public class IpAddressTest
     {
         var comment = "This is test comment for VirusTotalCore library";
         Comment? publishedComment = null;
-        var cancellationToken = new CancellationToken();
+        var cancellationToken = CancellationToken.None;
         var commentEndpoint = new CommentEndpoint(ApiKey);
         
         await _endpoint.AddComment(IpAddress, comment, cancellationToken);
@@ -92,14 +92,14 @@ public class IpAddressTest
     [Fact]
     public async Task GetRelationshipsTest()
     {
-        var relatedObjectsJson = await _endpoint.GetRelatedObjects(IpAddress, GraphRelationship, null, null);
+        var relatedObjectsJson = await _endpoint.GetRelatedObjects(IpAddress, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(relatedObjectsJson));
     }
 
     [Fact]
     public async Task GetDescriptorsTest() 
     {
-        var descriptorsJson = await _endpoint.GetRelatedDescriptors(IpAddress, GraphRelationship, null, null);
+        var descriptorsJson = await _endpoint.GetRelatedDescriptors(IpAddress, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(descriptorsJson));
     }
 
