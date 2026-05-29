@@ -26,14 +26,14 @@ public class CommentTest
     [Fact]
     public async Task GetLatestCommentsTest()
     {
-        var commentData = await _endpoint.GetLatest(null, null, new CancellationToken());
+        var commentData = await _endpoint.GetLatest(null, null);
         Assert.True(commentData.Comments.Count() is 10 && commentData.Meta.Cursor is not null && commentData.Links.Next is not null);
     }
 
     [Fact]
     public async Task GetSpecificCommentTest()
     {
-        var token = new CancellationToken();
+        var token = CancellationToken.None;
         var exampleCommentData = await CreateComment(token);
         try
         {
@@ -51,7 +51,7 @@ public class CommentTest
     [Fact]
     public async Task AddVoteToComment()
     {
-        var token = new CancellationToken();
+        var token = CancellationToken.None;
         var commentData = await CreateComment(token);
         try
         {

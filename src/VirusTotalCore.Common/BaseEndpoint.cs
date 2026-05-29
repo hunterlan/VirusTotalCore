@@ -51,10 +51,10 @@ public abstract class BaseEndpoint
     /// <param name="limit">Maximum number of related objects to retrieve</param>
     /// <returns>JSON string</returns>
     public virtual Task<string> GetRelatedObjects(string classObjectApiValue, string relationship, string? cursor,
-        CancellationToken? cancellationToken, int limit = 10)
+        CancellationToken cancellationToken = default, int limit = 10)
     {
         var requestUrl = VirusTotalRelationshipRequestBuilder.BuildObjects(classObjectApiValue, relationship, cursor, limit);
-        return _transport.GetRawAsync(CurrentEndpointName, requestUrl, cancellationToken ?? CancellationToken.None);
+        return _transport.GetRawAsync(CurrentEndpointName, requestUrl, cancellationToken);
     }
 
     /// <summary>
@@ -67,9 +67,9 @@ public abstract class BaseEndpoint
     /// <param name="limit">Maximum number of related objects to retrieve</param>
     /// <returns>JSON string</returns>
     public Task<string> GetRelatedDescriptors(string classObjectApiValue, string relationship, string? cursor,
-        CancellationToken? cancellationToken, int limit = 10)
+        CancellationToken cancellationToken = default, int limit = 10)
     {
         var requestUrl = VirusTotalRelationshipRequestBuilder.BuildDescriptors(classObjectApiValue, relationship, cursor, limit);
-        return _transport.GetRawAsync(CurrentEndpointName, requestUrl, cancellationToken ?? CancellationToken.None);
+        return _transport.GetRawAsync(CurrentEndpointName, requestUrl, cancellationToken);
     }
 }

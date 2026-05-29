@@ -21,11 +21,11 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
     /// </summary>
     /// <param name="url">URL to scan</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    public async Task<string> Scan(string url, CancellationToken? cancellationToken)
+    public async Task<string> Scan(string url, CancellationToken cancellationToken = default)
     {
         using var content = new MultipartFormDataContent();
         content.Add(new StringContent(url), "url");
-        return await PostMultipartAsync(null, content, cancellationToken ?? new CancellationToken());
+        return await PostMultipartAsync(null, content, cancellationToken);
     }
 
     /// <summary>
@@ -35,10 +35,10 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns cref="UrlReportAttributes">Report analysis</returns>
     /// <exception cref="Exception"></exception>
-    public async Task<AnalysisReport<UrlReportAttributes>> GetReport(string url, CancellationToken? cancellationToken)
+    public async Task<AnalysisReport<UrlReportAttributes>> GetReport(string url, CancellationToken cancellationToken = default)
     {
         const string rootPropertyName = "data";
-        return await GetAsync<AnalysisReport<UrlReportAttributes>>(ToBase64String(url), rootPropertyName, cancellationToken ?? new CancellationToken());
+        return await GetAsync<AnalysisReport<UrlReportAttributes>>(ToBase64String(url), rootPropertyName, cancellationToken);
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
     /// <param name="limit">Maximum number of comments to retrieve. By default is 10.</param>
     /// <returns>List of comments with metadata.</returns>
     /// <exception cref="Exception"></exception>
-    public async Task<CommentData> GetComments(string id, string? cursor, CancellationToken? cancellationToken, int limit = 10)
+    public async Task<CommentData> GetComments(string id, string? cursor, CancellationToken cancellationToken = default, int limit = 10)
     {
         var requestUrl = $"{id}/comments?limit={limit}";
         if (cursor is not null)
@@ -58,7 +58,7 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
             requestUrl += $"&cursor={cursor}";
         }
 
-        return await GetAsync<CommentData>(requestUrl, cancellationToken ?? new CancellationToken());
+        return await GetAsync<CommentData>(requestUrl, cancellationToken);
     }
 
     /// <summary>
@@ -69,13 +69,13 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Comment data</returns>
     /// <exception cref="Exception"></exception>
-    public async Task<Comment> AddComment(string id, string comment, CancellationToken? cancellationToken)
+    public async Task<Comment> AddComment(string id, string comment, CancellationToken cancellationToken = default)
     {
         const string rootPropertyName = "data";
         var newComment = new AddComment(comment);
         var requestUrl = $"{id}/comments";
 
-        return await PostAsync<Comment>(requestUrl, rootPropertyName, newComment, cancellationToken ?? new CancellationToken());
+        return await PostAsync<Comment>(requestUrl, rootPropertyName, newComment, cancellationToken);
     }
 
     /// <summary>
@@ -85,10 +85,10 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Votes with metadata</returns>
     /// <exception cref="Exception"></exception>
-    public async Task<VoteData> GetVotes(string id, CancellationToken? cancellationToken)
+    public async Task<VoteData> GetVotes(string id, CancellationToken cancellationToken = default)
     {
         var requestUrl = $"{id}/votes";
-        return await GetAsync<VoteData>(requestUrl, cancellationToken ?? new CancellationToken());
+        return await GetAsync<VoteData>(requestUrl, cancellationToken);
     }
 
     /// <summary>
@@ -98,16 +98,16 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
     /// <param name="verdict">"Harmless" or "Malicious"</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <exception cref="Exception"></exception>
-    public async Task AddVote(string id, VerdictType verdict, CancellationToken? cancellationToken)
+    public async Task AddVote(string id, VerdictType verdict, CancellationToken cancellationToken = default)
     {
         var newVote = new AddVote(verdict);
         var requestUrl = $"{id}/votes";
 
-        await PostAsync(requestUrl, newVote, cancellationToken ?? new CancellationToken());
+        await PostAsync(requestUrl, newVote, cancellationToken);
     }
 
     public override async Task<string> GetRelatedObjects(string id, string relationship, string? cursor,
-        CancellationToken? cancellationToken, int limit = 10)
+        CancellationToken cancellationToken = default, int limit = 10)
     {
         return await base.GetRelatedObjects(id, relationship, cursor, cancellationToken, limit);
     }

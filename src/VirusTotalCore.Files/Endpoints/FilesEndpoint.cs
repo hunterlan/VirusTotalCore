@@ -25,10 +25,8 @@ public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>SHA256 hash of the submitted file.</returns>
     /// <exception cref="FileNotFoundException">File does not exist.</exception>
-    public async Task<string> PostFile(string pathToFile, string? password, CancellationToken? cancellationToken)
+    public async Task<string> PostFile(string pathToFile, string? password, CancellationToken cancellationToken = default)
     {
-        cancellationToken ??= new CancellationToken();
-
         if (!File.Exists(pathToFile))
         {
             throw new FileNotFoundException($"Unable to find the specified file. Path is {pathToFile}");
@@ -39,7 +37,7 @@ public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
 
         if (fileInfo.Length > MaxSmallSizeBytes)
         {
-            uploadRequestUrl = await GetUrlForPost(cancellationToken.Value);
+            uploadRequestUrl = await GetUrlForPost(cancellationToken);
         }
 
         await using var sendStream = File.OpenRead(pathToFile);
@@ -51,7 +49,7 @@ public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
             content.Add(new StringContent(password), "password");
         }
 
-        await PostMultipartAsync(uploadRequestUrl, content, cancellationToken.Value);
+        await PostMultipartAsync(uploadRequestUrl, content, cancellationToken);
 
         var sha256 = SHA256.Create();
         byte[] hashBytes;
@@ -80,9 +78,9 @@ public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
     /// <param name="fileHash">MD5, SHA-1, or SHA-256 hash of the file.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns cref="AnalysisReport{FileReportAttributes}">Analysis report.</returns>
-    public async Task<AnalysisReport<FileReportAttributes>> GetReport(string fileHash, CancellationToken? cancellationToken)
+    public async Task<AnalysisReport<FileReportAttributes>> GetReport(string fileHash, CancellationToken cancellationToken = default)
     {
         const string rootPropertyName = "data";
-        return await GetAsync<AnalysisReport<FileReportAttributes>>(fileHash, rootPropertyName, cancellationToken ?? new CancellationToken());
+        return await GetAsync<AnalysisReport<FileReportAttributes>>(fileHash, rootPropertyName, cancellationToken);
     }
 }

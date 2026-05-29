@@ -14,35 +14,35 @@ public interface IAddressIpEndpoint
     /// <summary>
     /// Get report on given IP address.
     /// </summary>
-    Task<AnalysisReport<AddressReportAttributes>> GetReport(string ipAddress, CancellationToken? cancellationToken);
+    Task<AnalysisReport<AddressReportAttributes>> GetReport(string ipAddress, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get comments for given IP address.
     /// </summary>
-    Task<CommentData> GetComments(string ipAddress, string? cursor, CancellationToken? cancellationToken, int limit = 10);
+    Task<CommentData> GetComments(string ipAddress, string? cursor, CancellationToken cancellationToken = default, int limit = 10);
 
     /// <summary>
     /// Post a comment to an IP address.
     /// </summary>
-    Task AddComment(string ipAddress, string comment, CancellationToken? cancellationToken);
+    Task AddComment(string ipAddress, string comment, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get community votes for given IP address.
     /// </summary>
-    Task<VoteData> GetVotes(string ipAddress, CancellationToken? cancellationToken);
+    Task<VoteData> GetVotes(string ipAddress, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Post a vote to an IP address.
     /// </summary>
-    Task AddVote(string ipAddress, VerdictType verdict, CancellationToken? cancellationToken);
+    Task AddVote(string ipAddress, VerdictType verdict, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get related objects for the IP address.
     /// </summary>
-    Task<string> GetRelatedObjects(string ipAddress, string relationship, string? cursor, CancellationToken? cancellationToken, int limit = 10);
+    Task<string> GetRelatedObjects(string ipAddress, string relationship, string? cursor, CancellationToken cancellationToken = default, int limit = 10);
 
     /// <summary>
     /// Get related object descriptors for the IP address.
     /// </summary>
-    Task<string> GetRelatedDescriptors(string ipAddress, string relationship, string? cursor, CancellationToken? cancellationToken, int limit = 10);
+    Task<string> GetRelatedDescriptors(string ipAddress, string relationship, string? cursor, CancellationToken cancellationToken = default, int limit = 10);
 }

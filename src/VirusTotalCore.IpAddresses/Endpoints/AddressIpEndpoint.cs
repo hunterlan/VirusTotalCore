@@ -20,7 +20,7 @@ public class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
     /// <param name="cancellationToken"></param>
     /// <returns cref="AddressReportAttributes">Analysis report</returns>
     /// <exception cref="NotFoundException">Given IP address not found.</exception>
-    public async Task<AnalysisReport<AddressReportAttributes>> GetReport(string ipAddress, CancellationToken? cancellationToken)
+    public async Task<AnalysisReport<AddressReportAttributes>> GetReport(string ipAddress, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(ipAddress))
         {
@@ -28,7 +28,7 @@ public class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
         }
 
         const string rootPropertyName = "data";
-        return await GetAsync<AnalysisReport<AddressReportAttributes>>(ipAddress, rootPropertyName, cancellationToken ?? new CancellationToken());
+        return await GetAsync<AnalysisReport<AddressReportAttributes>>(ipAddress, rootPropertyName, cancellationToken);
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
     /// <exception cref="NotFoundException">Given IP address not found.</exception>
     /// <exception cref="AuthenticationRequiredException">Empty API key</exception>
     /// <exception cref="WrongCredentialsException">Invalid API key</exception>
-    public async Task<CommentData> GetComments(string ipAddress, string? cursor, CancellationToken? cancellationToken,
+    public async Task<CommentData> GetComments(string ipAddress, string? cursor, CancellationToken cancellationToken = default,
         int limit = 10)
     {
         var requestUrl = $"{ipAddress}/comments?limit={limit}";
@@ -51,7 +51,7 @@ public class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
             requestUrl += $"&cursor={cursor}";
         }
 
-        return await GetAsync<CommentData>(requestUrl, cancellationToken ?? new CancellationToken());
+        return await GetAsync<CommentData>(requestUrl, cancellationToken);
     }
 
     /// <summary>
@@ -64,12 +64,12 @@ public class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
     /// <param name="cancellationToken"></param>
     /// <exception cref="NotFoundException">Given IP address not found.</exception>
     /// <exception cref="AlreadyExistsException">Comment with given content is already exists.</exception>
-    public async Task AddComment(string ipAddress, string comment, CancellationToken? cancellationToken)
+    public async Task AddComment(string ipAddress, string comment, CancellationToken cancellationToken = default)
     {
         var newComment = new AddComment(comment);
         var requestUrl = $"{ipAddress}/comments";
 
-        await PostAsync(requestUrl, newComment, cancellationToken ?? new CancellationToken());
+        await PostAsync(requestUrl, newComment, cancellationToken);
     }
 
     /// <summary>
@@ -79,10 +79,10 @@ public class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
     /// <param name="cancellationToken"></param>
     /// <returns cref="VoteData">IP address community votes</returns>
     /// <exception cref="NotFoundException">Given IP address not found.</exception>
-    public async Task<VoteData> GetVotes(string ipAddress, CancellationToken? cancellationToken)
+    public async Task<VoteData> GetVotes(string ipAddress, CancellationToken cancellationToken = default)
     {
         var requestUrl = $"{ipAddress}/votes";
-        return await GetAsync<VoteData>(requestUrl, cancellationToken ?? new CancellationToken());
+        return await GetAsync<VoteData>(requestUrl, cancellationToken);
     }
 
     /// <summary>
@@ -94,11 +94,11 @@ public class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
     /// <param name="cancellationToken"></param>
     /// <exception cref="ArgumentOutOfRangeException">Only harmless or malicious verdict is available.</exception>
     /// <exception cref="NotFoundException">Given IP address not found.</exception>
-    public async Task AddVote(string ipAddress, VerdictType verdict, CancellationToken? cancellationToken)
+    public async Task AddVote(string ipAddress, VerdictType verdict, CancellationToken cancellationToken = default)
     {
         var newVote = new AddVote(verdict);
         var requestUrl = $"{ipAddress}/votes";
 
-        await PostAsync(requestUrl, newVote, cancellationToken ?? new CancellationToken());
+        await PostAsync(requestUrl, newVote, cancellationToken);
     }
 }
