@@ -71,7 +71,7 @@ public sealed class CommentEndpoint : BaseEndpoint, ICommentEndpoint
     /// <param name="cancellationToken">Cancellation token</param>
     public async Task AddVote(string commentId, CommentVerdict verdict, CancellationToken cancellationToken = default)
     {
-        var newVote = new { Data = verdict.ToString().ToLower() };
+        var newVote = new VoteRequest { Data = verdict.ToString().ToLower() };
         var requestUrl = $"{commentId}/vote";
 
         await PostAsync(requestUrl, newVote, cancellationToken);
