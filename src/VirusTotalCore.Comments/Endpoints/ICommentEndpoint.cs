@@ -16,7 +16,7 @@ public interface ICommentEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <param name="limit">Number of items to retrieve. Default value is 10.</param>
     /// <returns>Latest comments.</returns>
-    Task<CommentData> GetLatest(string? filter, string? cursor, CancellationToken cancellationToken = default, int limit = 10);
+    Task<CommentData> GetLatestComments(string? filter, string? cursor, CancellationToken cancellationToken = default, int limit = 10);
 
     /// <summary>
     /// Get specific comment by ID.

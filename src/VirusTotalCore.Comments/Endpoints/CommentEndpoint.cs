@@ -22,7 +22,7 @@ public sealed class CommentEndpoint : BaseEndpoint, ICommentEndpoint
     /// <param name="cancellationToken">Cancellation token</param>
     /// <param name="limit">Number of items to retrieve. Default value is 10.</param>
     /// <returns>Latest comments.</returns>
-    public async Task<CommentData> GetLatest(string? filter, string? cursor, CancellationToken cancellationToken = default,
+    public async Task<CommentData> GetLatestComments(string? filter, string? cursor, CancellationToken cancellationToken = default,
         int limit = 10)
     {
         var requestUrl = $"?limit={limit}";
