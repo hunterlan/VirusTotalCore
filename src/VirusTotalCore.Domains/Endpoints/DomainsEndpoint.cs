@@ -103,15 +103,4 @@ public sealed class DomainsEndpoint : BaseEndpoint, IDomainsEndpoint
         await PostAsync(requestUrl, newVote, cancellationToken);
     }
 
-    public override async Task<string> GetRelatedObjects(string domain, string relationship, string? cursor,
-        CancellationToken cancellationToken = default, int limit = 10)
-    {
-        return await base.GetRelatedObjects(domain, relationship, cursor, cancellationToken, limit);
-    }
-
-    public new async Task<string> GetRelatedDescriptors(string domain, string relationship, string? cursor,
-        CancellationToken cancellationToken = default, int limit = 10)
-    {
-        return await base.GetRelatedDescriptors(domain, relationship, cursor, cancellationToken, limit);
-    }
 }

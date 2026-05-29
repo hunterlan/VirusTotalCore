@@ -66,7 +66,7 @@ public abstract class BaseEndpoint
     /// <param name="cancellationToken">Cancellation token</param>
     /// <param name="limit">Maximum number of related objects to retrieve</param>
     /// <returns>JSON string</returns>
-    public Task<string> GetRelatedDescriptors(string classObjectApiValue, string relationship, string? cursor,
+    public virtual Task<string> GetRelatedDescriptors(string classObjectApiValue, string relationship, string? cursor,
         CancellationToken cancellationToken = default, int limit = 10)
     {
         var requestUrl = VirusTotalRelationshipRequestBuilder.BuildDescriptors(classObjectApiValue, relationship, cursor, limit);

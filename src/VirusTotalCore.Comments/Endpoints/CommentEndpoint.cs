@@ -77,9 +77,4 @@ public class CommentEndpoint : BaseEndpoint, ICommentEndpoint
         await PostAsync(requestUrl, newVote, cancellationToken);
     }
 
-    public override async Task<string> GetRelatedObjects(string commentId, string relationship, string? cursor,
-        CancellationToken cancellationToken = default, int limit = 10)
-    {
-        return await base.GetRelatedObjects(commentId, relationship, cursor, cancellationToken, limit);
-    }
 }
