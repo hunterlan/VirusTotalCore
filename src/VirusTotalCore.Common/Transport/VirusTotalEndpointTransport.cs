@@ -29,12 +29,12 @@ internal sealed class VirusTotalEndpointTransport(HttpClient httpClient) : IViru
         return await EnsureSuccessAsync(response, cancellationToken);
     }
 
-    public async Task PostAsync(string endpointName, string requestUrl, object value, CancellationToken cancellationToken)
+    public async Task PostAsync<TRequest>(string endpointName, string requestUrl, TRequest value, CancellationToken cancellationToken)
     {
         await SendPostAsync(endpointName, requestUrl, value, cancellationToken);
     }
 
-    public async Task<T> PostAsync<T>(string endpointName, string requestUrl, string rootPropertyName, object value, CancellationToken cancellationToken)
+    public async Task<T> PostAsync<T, TRequest>(string endpointName, string requestUrl, string rootPropertyName, TRequest value, CancellationToken cancellationToken)
     {
         var responseJson = await SendPostAsync(endpointName, requestUrl, value, cancellationToken);
 
@@ -70,10 +70,10 @@ internal sealed class VirusTotalEndpointTransport(HttpClient httpClient) : IViru
         return await EnsureSuccessAsync(response, cancellationToken);
     }
 
-    private async Task<string> SendPostAsync(string endpointName, string requestUrl, object value, CancellationToken cancellationToken)
+    private async Task<string> SendPostAsync<TRequest>(string endpointName, string requestUrl, TRequest value, CancellationToken cancellationToken)
     {
         var url = VirusTotalRequestPathBuilder.Build(endpointName, requestUrl);
-        var content = JsonContent.Create(value, value.GetType(), options: VirusTotalJsonOptions.Default);
+        var content = JsonContent.Create<TRequest>(value, options: VirusTotalJsonOptions.Default);
 
         using var response = await httpClient.PostAsync(url, content, cancellationToken);
         return await EnsureSuccessAsync(response, cancellationToken);

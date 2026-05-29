@@ -29,11 +29,11 @@ public abstract class BaseEndpoint
     protected Task<T> GetAsync<T>(string requestUrl, string jsonRootName, CancellationToken cancellationToken) =>
         _transport.GetAsync<T>(CurrentEndpointName, requestUrl, jsonRootName, cancellationToken);
 
-    protected Task PostAsync(string requestUrl, object value, CancellationToken cancellationToken) =>
+    protected Task PostAsync<TRequest>(string requestUrl, TRequest value, CancellationToken cancellationToken) =>
         _transport.PostAsync(CurrentEndpointName, requestUrl, value, cancellationToken);
 
-    protected Task<T> PostAsync<T>(string requestUrl, string jsonRootName, object value, CancellationToken cancellationToken) =>
-        _transport.PostAsync<T>(CurrentEndpointName, requestUrl, jsonRootName, value, cancellationToken);
+    protected Task<T> PostAsync<T, TRequest>(string requestUrl, string jsonRootName, TRequest value, CancellationToken cancellationToken) =>
+        _transport.PostAsync<T, TRequest>(CurrentEndpointName, requestUrl, jsonRootName, value, cancellationToken);
 
     protected Task DeleteAsync(string requestUrl, CancellationToken cancellationToken) =>
         _transport.DeleteAsync(CurrentEndpointName, requestUrl, cancellationToken);
