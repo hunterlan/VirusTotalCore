@@ -26,7 +26,7 @@ public class CommentTest
     [Fact]
     public async Task GetLatestCommentsTest()
     {
-        var commentData = await _endpoint.GetLatest(null, null);
+        var commentData = await _endpoint.GetLatestComments(null, null);
         Assert.True(commentData.Comments.Count() is 10 && commentData.Meta.Cursor is not null && commentData.Links.Next is not null);
     }
 
