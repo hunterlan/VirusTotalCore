@@ -21,11 +21,11 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
     /// </summary>
     /// <param name="url">URL to scan</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    private async Task Scan(string url, CancellationToken? cancellationToken)
+    public async Task<string> Scan(string url, CancellationToken? cancellationToken)
     {
         using var content = new MultipartFormDataContent();
         content.Add(new StringContent(url), "url");
-        await PostMultipartAsync(null, content, cancellationToken ?? new CancellationToken());
+        return await PostMultipartAsync(null, content, cancellationToken ?? new CancellationToken());
     }
 
     /// <summary>
@@ -37,7 +37,6 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
     /// <exception cref="Exception"></exception>
     public async Task<AnalysisReport<UrlReportAttributes>> GetReport(string url, CancellationToken? cancellationToken)
     {
-        await Scan(url, cancellationToken);
         const string rootPropertyName = "data";
         return await GetAsync<AnalysisReport<UrlReportAttributes>>(ToBase64String(url), rootPropertyName, cancellationToken ?? new CancellationToken());
     }
