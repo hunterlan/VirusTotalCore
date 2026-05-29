@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using VirusTotalCore.Endpoints;
+using VirusTotalCore.Files.Endpoints;
 using Xunit.Abstractions;
 
 namespace VirusTotalCore.Tests;
@@ -26,28 +26,30 @@ public class FilesTest
     public async Task PostSmallFile()
     {
         _testOutputHelper.WriteLine(Directory.GetCurrentDirectory());
-        var analysisResult = await Endpoint.PostFile($"test_files{Path.DirectorySeparatorChar}123.txt", null, new CancellationToken());
-        Assert.True(analysisResult is not null);
+        var filePath = $"test_files{Path.DirectorySeparatorChar}123.txt";
+        await using var stream = File.OpenRead(filePath);
+        var hash = await Endpoint.PostFile(stream, Path.GetFileName(filePath), null);
+        Assert.True(!string.IsNullOrEmpty(hash));
     }
 
     [Fact]
     public async Task GetReportTest()
     {
-        var report = await Endpoint.GetReport(TestFileHashId, null);
+        var report = await Endpoint.GetReport(TestFileHashId);
         Assert.True(report is not null);
     }
-    
+
     [Fact]
     public async Task GetRelationshipsTest()
     {
-        var relatedObjectsJson = await Endpoint.GetRelatedObjects(TestFileHashId, GraphRelationship, null, null);
+        var relatedObjectsJson = await Endpoint.GetRelatedObjects(TestFileHashId, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(relatedObjectsJson));
     }
 
-        [Fact]
-    public async Task GetDescriptorsTest() 
+    [Fact]
+    public async Task GetDescriptorsTest()
     {
-        var descriptorsJson = await Endpoint.GetRelatedDescriptors(TestFileHashId, GraphRelationship, null, null);
+        var descriptorsJson = await Endpoint.GetRelatedDescriptors(TestFileHashId, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(descriptorsJson));
     }
 }

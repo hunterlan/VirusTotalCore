@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using VirusTotalCore.Endpoints;
+using VirusTotalCore.Comments.Endpoints;
+using VirusTotalCore.Urls.Endpoints;
 
 namespace VirusTotalCore.Tests;
 
@@ -24,43 +25,43 @@ public class UrlTest
     [Fact]
     public async Task GetReportTest()
     {
-        var urlReport = await _endpoint.GetReport("https://shields.io/badges/git-hub-actions-workflow-status", new CancellationToken());
+        var urlReport = await _endpoint.GetReport("https://shields.io/badges/git-hub-actions-workflow-status");
         Assert.NotNull(urlReport);
     }
 
     [Fact]
     public async Task GetCommentsTest()
     {
-        var commentData = await _endpoint.GetComments(DotnetUrlId, null, null);
+        var commentData = await _endpoint.GetComments(DotnetUrlId, null);
         Assert.NotNull(commentData);
     }
 
     [Fact]
     public async Task AddCommentTest()
     {
-        var commentData = await _endpoint.AddComment(DotnetUrlId, "Website of Microsoft, which suggest to download dotnet.", null);
+        var commentData = await _endpoint.AddComment(DotnetUrlId, "Website of Microsoft, which suggest to download dotnet.");
         Assert.NotNull(commentData);
-        await _commentEndpoint.Delete(commentData.Id, null);
+        await _commentEndpoint.Delete(commentData.Id);
     }
 
     [Fact]
     public async Task GetVotesTest()
     {
-        var votesData = await _endpoint.GetVotes(DotnetUrlId, new CancellationToken());
+        var votesData = await _endpoint.GetVotes(DotnetUrlId);
         Assert.NotNull(votesData);
     }
-    
+
     [Fact]
     public async Task GetRelationshipsTest()
     {
-        var relatedObjectsJson = await _endpoint.GetRelatedObjects(DotnetUrlId, GraphRelationship, null, null);
+        var relatedObjectsJson = await _endpoint.GetRelatedObjects(DotnetUrlId, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(relatedObjectsJson));
     }
 
     [Fact]
-    public async Task GetDescriptorsTest() 
+    public async Task GetDescriptorsTest()
     {
-        var descriptorsJson = await _endpoint.GetRelatedDescriptors(DotnetUrlId, GraphRelationship, null, null);
+        var descriptorsJson = await _endpoint.GetRelatedDescriptors(DotnetUrlId, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(descriptorsJson));
     }
 }

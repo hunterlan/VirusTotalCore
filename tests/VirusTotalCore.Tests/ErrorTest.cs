@@ -1,12 +1,12 @@
 using Microsoft.Extensions.Configuration;
-using VirusTotalCore.Endpoints;
+using VirusTotalCore.IpAddresses.Endpoints;
 
 namespace VirusTotalCore.Tests;
 
 public class ErrorTest
 {
     private string ApiKey { get; }
-    private readonly AddressIpEndpoint _endpoint;
+    private readonly VirusTotalCore.IpAddresses.Endpoints.AddressIpEndpoint _endpoint;
 
     public ErrorTest()
     {

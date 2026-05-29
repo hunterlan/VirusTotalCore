@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using VirusTotalCore.Endpoints;
-using VirusTotalCore.Models.Comments;
-using VirusTotalCore.Models.Comments.Vote;
+using VirusTotalCore.Domains.Endpoints;
+using VirusTotalCore.Comments.Endpoints;
+using VirusTotalCore.Common.Models.Comments;
+using VirusTotalCore.Common.Models.Comments.Vote;
 
 namespace VirusTotalCore.Tests;
 
@@ -25,32 +26,32 @@ public class CommentTest
     [Fact]
     public async Task GetLatestCommentsTest()
     {
-        var commentData = await _endpoint.GetLatest(null, null, new CancellationToken());
+        var commentData = await _endpoint.GetLatestComments(null, null);
         Assert.True(commentData.Comments.Count() is 10 && commentData.Meta.Cursor is not null && commentData.Links.Next is not null);
     }
 
     [Fact]
     public async Task GetSpecificCommentTest()
     {
-        var token = new CancellationToken();
+        var token = CancellationToken.None;
         var exampleCommentData = await CreateComment(token);
         try
         {
             var realCommentData = await _endpoint.Get(exampleCommentData.Id, token);
-            Assert.True(string.Equals(exampleCommentData.Id, realCommentData.Id) 
+            Assert.True(string.Equals(exampleCommentData.Id, realCommentData.Id)
                         && string.Equals(exampleCommentData.Attributes.Text, realCommentData.Attributes.Text)
                         && exampleCommentData.Attributes.Date == realCommentData.Attributes.Date);
         }
         finally
         {
-            await _endpoint.Delete(exampleCommentData.Id, token);   
+            await _endpoint.Delete(exampleCommentData.Id, token);
         }
     }
 
     [Fact]
     public async Task AddVoteToComment()
     {
-        var token = new CancellationToken();
+        var token = CancellationToken.None;
         var commentData = await CreateComment(token);
         try
         {
@@ -60,7 +61,7 @@ public class CommentTest
         }
         finally
         {
-            await _endpoint.Delete(commentData.Id, token);   
+            await _endpoint.Delete(commentData.Id, token);
         }
     }
 

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>2.0.0</Version>
+    <Title>VirusTotalCore.IpAddresses</Title>
+    <Authors>Kostiantyn Sharykin</Authors>
+    <Description>IP address lookup library for VirusTotal — standalone package for querying IP address reports, comments and votes.</Description>
+    <Copyright>MIT License</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/hunterlan/VirusTotalCore</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>12</LangVersion>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../VirusTotalCore.Common/VirusTotalCore.Common.csproj" />
+  </ItemGroup>
+
+</Project>

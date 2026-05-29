@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
-using VirusTotalCore.Endpoints;
+using VirusTotalCore.Comments.Endpoints;
+using VirusTotalCore.Domains.Endpoints;
 
 namespace VirusTotalCore.Tests;
 
@@ -25,21 +26,21 @@ public class DomainTest
     public async Task TestDomainReport()
     {
         const string domain = "pja.edu.pl";
-        var report = await _endpoint.GetReport("pja.edu.pl", new CancellationToken());
-        Assert.True(report is {Type: "domain", Id: domain});
+        var report = await _endpoint.GetReport("pja.edu.pl");
+        Assert.True(report is { Type: "domain", Id: domain });
     }
 
     [Fact]
     public async Task TestGetCommentsDomainReport()
     {
-        var comments = await _endpoint.GetComments(GoogleDomain, new CancellationToken(), null, 10);
+        var comments = await _endpoint.GetComments(GoogleDomain, null, limit: 10);
         Assert.True(comments.Comments.Count() is 10);
     }
-    
+
     [Fact]
     public async Task AddCommentTest()
     {
-        var cancellationToken = new CancellationToken();
+        var cancellationToken = CancellationToken.None;
         var commentEndpoint = new CommentEndpoint(ApiKey);
         const string comment = "It's google and it's safe";
         var commentResult = await _endpoint.AddComment(GoogleDomain, comment, cancellationToken);
@@ -49,24 +50,24 @@ public class DomainTest
         }
         finally
         {
-            await commentEndpoint.Delete(commentResult.Id, cancellationToken);   
+            await commentEndpoint.Delete(commentResult.Id, cancellationToken);
         }
     }
-    
+
     [Fact]
     public async Task GetRelationshipsTest()
     {
-        var relatedObjectsJson = await _endpoint.GetRelatedObjects(GoogleDomain, GraphRelationship, null, null);
+        var relatedObjectsJson = await _endpoint.GetRelatedObjects(GoogleDomain, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(relatedObjectsJson));
     }
 
     [Fact]
-    public async Task GetDescriptorsTest() 
+    public async Task GetDescriptorsTest()
     {
-        var descriptorsJson = await _endpoint.GetRelatedDescriptors(GoogleDomain, GraphRelationship, null, null);
+        var descriptorsJson = await _endpoint.GetRelatedDescriptors(GoogleDomain, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(descriptorsJson));
     }
-    
+
     /*
      * TODO: Write test for posting vote
      * Find a way to delete the vote
