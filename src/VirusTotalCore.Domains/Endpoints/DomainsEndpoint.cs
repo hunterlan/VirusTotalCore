@@ -64,7 +64,7 @@ public sealed class DomainsEndpoint : BaseEndpoint, IDomainsEndpoint
         var newComment = new AddComment(comment);
         var requestUrl = $"{domain}/comments";
 
-        return await PostAsync<Comment>(requestUrl, rootPropertyName, newComment, cancellationToken);
+        return await PostAsync<Comment, AddComment>(requestUrl, rootPropertyName, newComment, cancellationToken);
     }
 
     /// <summary>
