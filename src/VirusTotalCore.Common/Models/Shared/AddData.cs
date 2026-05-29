@@ -10,6 +10,6 @@ public class AddData<T>
     /// Post type. Two options: "vote" and "comment"
     /// </summary>
     public required string Type { get; set; }
-    
+
     public required T Attributes { get; set; }
 }

@@ -12,9 +12,9 @@ internal static class VirusTotalHttpClientProvider
         {
             BaseAddress = new Uri(ApiBaseUrl)
         };
-        
+
         httpClient.DefaultRequestHeaders.Add("x-apikey", apiKey);
-        
+
         return httpClient;
     }
 

@@ -50,7 +50,7 @@ public class UrlTest
         var votesData = await _endpoint.GetVotes(DotnetUrlId);
         Assert.NotNull(votesData);
     }
-    
+
     [Fact]
     public async Task GetRelationshipsTest()
     {
@@ -59,7 +59,7 @@ public class UrlTest
     }
 
     [Fact]
-    public async Task GetDescriptorsTest() 
+    public async Task GetDescriptorsTest()
     {
         var descriptorsJson = await _endpoint.GetRelatedDescriptors(DotnetUrlId, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(descriptorsJson));
