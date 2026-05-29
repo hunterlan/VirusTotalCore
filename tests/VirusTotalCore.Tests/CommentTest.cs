@@ -38,13 +38,13 @@ public class CommentTest
         try
         {
             var realCommentData = await _endpoint.Get(exampleCommentData.Id, token);
-            Assert.True(string.Equals(exampleCommentData.Id, realCommentData.Id) 
+            Assert.True(string.Equals(exampleCommentData.Id, realCommentData.Id)
                         && string.Equals(exampleCommentData.Attributes.Text, realCommentData.Attributes.Text)
                         && exampleCommentData.Attributes.Date == realCommentData.Attributes.Date);
         }
         finally
         {
-            await _endpoint.Delete(exampleCommentData.Id, token);   
+            await _endpoint.Delete(exampleCommentData.Id, token);
         }
     }
 
@@ -61,7 +61,7 @@ public class CommentTest
         }
         finally
         {
-            await _endpoint.Delete(commentData.Id, token);   
+            await _endpoint.Delete(commentData.Id, token);
         }
     }
 

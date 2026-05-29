@@ -27,7 +27,7 @@ public class DomainTest
     {
         const string domain = "pja.edu.pl";
         var report = await _endpoint.GetReport("pja.edu.pl");
-        Assert.True(report is {Type: "domain", Id: domain});
+        Assert.True(report is { Type: "domain", Id: domain });
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class DomainTest
         var comments = await _endpoint.GetComments(GoogleDomain, null, limit: 10);
         Assert.True(comments.Comments.Count() is 10);
     }
-    
+
     [Fact]
     public async Task AddCommentTest()
     {
@@ -50,10 +50,10 @@ public class DomainTest
         }
         finally
         {
-            await commentEndpoint.Delete(commentResult.Id, cancellationToken);   
+            await commentEndpoint.Delete(commentResult.Id, cancellationToken);
         }
     }
-    
+
     [Fact]
     public async Task GetRelationshipsTest()
     {
@@ -62,12 +62,12 @@ public class DomainTest
     }
 
     [Fact]
-    public async Task GetDescriptorsTest() 
+    public async Task GetDescriptorsTest()
     {
         var descriptorsJson = await _endpoint.GetRelatedDescriptors(GoogleDomain, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(descriptorsJson));
     }
-    
+
     /*
      * TODO: Write test for posting vote
      * Find a way to delete the vote

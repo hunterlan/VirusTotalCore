@@ -49,7 +49,7 @@ public class IpAddressTest
         var ipVotes = await _endpoint.GetVotes(IpAddress);
         Assert.True(ipVotes.Data.Any() && ipVotes.Data.First().Attributes is not null);
     }
-    
+
     [Fact]
     public async Task CatchErrorOnIncorrectPostComment()
     {
@@ -63,7 +63,7 @@ public class IpAddressTest
         await Assert.ThrowsAsync<AlreadyExistsException>(() =>
             _endpoint.AddComment(IpAddress, "Lorem ipsum dolor sit ..."));
     }
-    
+
     [Fact]
     public async Task AddCommentTest()
     {
@@ -71,11 +71,11 @@ public class IpAddressTest
         Comment? publishedComment = null;
         var cancellationToken = CancellationToken.None;
         var commentEndpoint = new CommentEndpoint(ApiKey);
-        
+
         await _endpoint.AddComment(IpAddress, comment, cancellationToken);
         try
         {
-            var commentData = await _endpoint.GetComments(IpAddress, null, cancellationToken); 
+            var commentData = await _endpoint.GetComments(IpAddress, null, cancellationToken);
             publishedComment = commentData.Comments.First();
             Assert.Equal(comment, publishedComment.Attributes.Text);
         }
@@ -84,7 +84,7 @@ public class IpAddressTest
             if (publishedComment is not null)
             {
                 var commentId = publishedComment.Id;
-                await commentEndpoint.Delete(commentId, cancellationToken);      
+                await commentEndpoint.Delete(commentId, cancellationToken);
             }
         }
     }
@@ -97,7 +97,7 @@ public class IpAddressTest
     }
 
     [Fact]
-    public async Task GetDescriptorsTest() 
+    public async Task GetDescriptorsTest()
     {
         var descriptorsJson = await _endpoint.GetRelatedDescriptors(IpAddress, GraphRelationship, null);
         Assert.True(!string.IsNullOrEmpty(descriptorsJson));

@@ -6,7 +6,7 @@ internal static class VirusTotalRequestPathBuilder
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(endpointName);
         ArgumentException.ThrowIfNullOrWhiteSpace(requestUrl);
-        
+
         return requestUrl.StartsWith('?') ? $"{endpointName}{requestUrl}" : $"{endpointName}/{requestUrl}";
     }
 }
