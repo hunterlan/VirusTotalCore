@@ -12,6 +12,12 @@ namespace VirusTotalCore.Urls.Endpoints;
 public interface IUrlEndpoint
 {
     /// <summary>
+    /// Request to scan a URL and submit it for analysis.
+    /// </summary>
+    /// <param name="url">URL to scan</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    Task<string> Scan(string url, CancellationToken? cancellationToken);
+    /// <summary>
     /// Scan a URL and get the analysis report.
     /// </summary>
     Task<AnalysisReport<UrlReportAttributes>> GetReport(string url, CancellationToken? cancellationToken);
