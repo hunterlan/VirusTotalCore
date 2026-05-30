@@ -2,7 +2,7 @@ using System.Net;
 using VirusTotalCore.Common.Exceptions;
 using VirusTotalCore.Common.Transport;
 
-namespace VirusTotalCore.Tests.Transport;
+namespace VirusTotalCore.Tests.Unit.Transport;
 
 public sealed class VirusTotalEndpointTransportTests
 {

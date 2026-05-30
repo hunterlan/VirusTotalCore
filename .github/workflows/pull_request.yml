@@ -24,6 +24,6 @@ jobs:
     - name: Build
       run: dotnet build -c Release --no-restore
     - name: Test
-      env:
-        apiKey: ${{ secrets.APIKEY }}
-      run: dotnet test -c Release --no-build
+      run: |
+        dotnet test tests/VirusTotalCore.Tests.Unit -c Release --no-build
+        dotnet test tests/VirusTotalCore.Tests.Integration -c Release --no-build

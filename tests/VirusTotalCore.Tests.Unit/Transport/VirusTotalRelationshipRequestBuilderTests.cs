@@ -1,6 +1,6 @@
 using VirusTotalCore.Common.Transport;
 
-namespace VirusTotalCore.Tests.Transport;
+namespace VirusTotalCore.Tests.Unit.Transport;
 
 public sealed class VirusTotalRelationshipRequestBuilderTests
 {

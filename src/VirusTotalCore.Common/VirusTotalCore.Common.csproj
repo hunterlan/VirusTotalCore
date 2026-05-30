@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="VirusTotalCore.Tests" />
+    <InternalsVisibleTo Include="VirusTotalCore.Tests.Unit" />
   </ItemGroup>
 
 </Project>

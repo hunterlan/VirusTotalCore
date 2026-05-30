@@ -3,7 +3,7 @@ using Microsoft.VisualBasic;
 using VirusTotalCore.Comments.Endpoints;
 using VirusTotalCore.Domains.Endpoints;
 
-namespace VirusTotalCore.Tests;
+namespace VirusTotalCore.Tests.EndToEnd;
 
 public class DomainTest
 {
