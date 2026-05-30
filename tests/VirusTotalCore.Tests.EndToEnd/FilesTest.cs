@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using VirusTotalCore.Files.Endpoints;
 using Xunit.Abstractions;
 
-namespace VirusTotalCore.Tests;
+namespace VirusTotalCore.Tests.EndToEnd;
 
 public class FilesTest
 {

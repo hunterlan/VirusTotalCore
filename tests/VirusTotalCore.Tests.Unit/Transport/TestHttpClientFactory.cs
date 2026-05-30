@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
 
-namespace VirusTotalCore.Tests.Transport;
+namespace VirusTotalCore.Tests.Unit.Transport;
 
 internal sealed class FakeHttpMessageHandler(HttpStatusCode statusCode, string responseBody) : HttpMessageHandler
 {

@@ -1,7 +1,7 @@
 using System.Text;
 using VirusTotalCore.Common.Hashing;
 
-namespace VirusTotalCore.Tests;
+namespace VirusTotalCore.Tests.Unit;
 
 public sealed class HashProviderTests
 {

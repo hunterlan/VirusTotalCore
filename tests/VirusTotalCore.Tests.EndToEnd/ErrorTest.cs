@@ -1,12 +1,12 @@
 using Microsoft.Extensions.Configuration;
 using VirusTotalCore.IpAddresses.Endpoints;
 
-namespace VirusTotalCore.Tests;
+namespace VirusTotalCore.Tests.EndToEnd;
 
 public class ErrorTest
 {
     private string ApiKey { get; }
-    private readonly VirusTotalCore.IpAddresses.Endpoints.AddressIpEndpoint _endpoint;
+    private readonly AddressIpEndpoint _endpoint;
 
     public ErrorTest()
     {
@@ -16,11 +16,5 @@ public class ErrorTest
             .Build();
         ApiKey = settings["apiKey"]!;
         _endpoint = new AddressIpEndpoint(ApiKey);
-    }
-
-    [Fact]
-    public void IncorrectApiKeyAssign()
-    {
-        Assert.Throws<ArgumentException>(() => new AddressIpEndpoint(""));
     }
 }

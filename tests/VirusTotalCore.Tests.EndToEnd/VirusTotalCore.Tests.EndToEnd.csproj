@@ -24,28 +24,25 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\VirusTotalCore.Common\VirusTotalCore.Common.csproj" />
-      <ProjectReference Include="..\..\src\VirusTotalCore.IpAddresses\VirusTotalCore.IpAddresses.csproj" />
-      <ProjectReference Include="..\..\src\VirusTotalCore.Urls\VirusTotalCore.Urls.csproj" />
-      <ProjectReference Include="..\..\src\VirusTotalCore.Files\VirusTotalCore.Files.csproj" />
-      <ProjectReference Include="..\..\src\VirusTotalCore.Domains\VirusTotalCore.Domains.csproj" />
-      <ProjectReference Include="..\..\src\VirusTotalCore.Comments\VirusTotalCore.Comments.csproj" />
+        <ProjectReference Include="..\..\src\VirusTotalCore.Common\VirusTotalCore.Common.csproj" />
+        <ProjectReference Include="..\..\src\VirusTotalCore.IpAddresses\VirusTotalCore.IpAddresses.csproj" />
+        <ProjectReference Include="..\..\src\VirusTotalCore.Urls\VirusTotalCore.Urls.csproj" />
+        <ProjectReference Include="..\..\src\VirusTotalCore.Files\VirusTotalCore.Files.csproj" />
+        <ProjectReference Include="..\..\src\VirusTotalCore.Domains\VirusTotalCore.Domains.csproj" />
+        <ProjectReference Include="..\..\src\VirusTotalCore.Comments\VirusTotalCore.Comments.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestFIles\123.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="test_files\123.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="test_files\123.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="test_files\" />
+        <Folder Include="test_files\" />
     </ItemGroup>
 
 </Project>
