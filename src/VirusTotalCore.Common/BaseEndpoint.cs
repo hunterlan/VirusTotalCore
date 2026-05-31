@@ -23,6 +23,11 @@ public abstract class BaseEndpoint
         CurrentEndpointName = endpoint;
     }
 
+    internal BaseEndpoint(HttpClient httpClient, string endpoint)
+        : this(new VirusTotalEndpointTransport(httpClient), endpoint)
+    {
+    }
+
     protected Task<T> GetAsync<T>(string requestUrl, CancellationToken cancellationToken) =>
         _transport.GetAsync<T>(CurrentEndpointName, requestUrl, cancellationToken);
 

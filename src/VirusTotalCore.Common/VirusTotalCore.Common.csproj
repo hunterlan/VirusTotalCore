@@ -20,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="VirusTotalCore.Files" />
     <InternalsVisibleTo Include="VirusTotalCore.Tests.Unit" />
+    <InternalsVisibleTo Include="VirusTotalCore.Tests.Integration" />
   </ItemGroup>
 
 </Project>

@@ -19,4 +19,8 @@
     <ProjectReference Include="../VirusTotalCore.Common/VirusTotalCore.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="VirusTotalCore.Tests.Integration" />
+  </ItemGroup>
+
 </Project>

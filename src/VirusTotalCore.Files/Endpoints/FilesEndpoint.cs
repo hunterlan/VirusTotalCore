@@ -24,6 +24,12 @@ public sealed class FilesEndpoint : BaseEndpoint, IFilesEndpoint
         _hashProvider = hashProvider ?? new Sha256HashProvider();
     }
 
+    internal FilesEndpoint(HttpClient httpClient, IFileHashProvider? hashProvider = null)
+        : base(httpClient, "files")
+    {
+        _hashProvider = hashProvider ?? new Sha256HashProvider();
+    }
+
     private const int MaxSmallSizeBytes = 33554432;
 
     /// <summary>
