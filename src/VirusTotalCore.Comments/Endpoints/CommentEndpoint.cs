@@ -12,6 +12,7 @@ public sealed class CommentEndpoint : BaseEndpoint, ICommentEndpoint
 {
     public CommentEndpoint(string apiKey) : base(apiKey, "comments") { }
     public CommentEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "comments") { }
+    internal CommentEndpoint(HttpClient httpClient) : base(httpClient, "comments") { }
 
     /// <summary>
     /// This endpoint retrieves information about the latest comments added to VirusTotal.

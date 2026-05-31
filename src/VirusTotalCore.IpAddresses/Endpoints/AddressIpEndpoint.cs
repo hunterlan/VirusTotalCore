@@ -12,6 +12,7 @@ public sealed class AddressIpEndpoint : BaseEndpoint, IAddressIpEndpoint
 {
     public AddressIpEndpoint(string apiKey) : base(apiKey, "ip_addresses") { }
     public AddressIpEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "ip_addresses") { }
+    internal AddressIpEndpoint(HttpClient httpClient) : base(httpClient, "ip_addresses") { }
 
     /// <summary>
     ///     Get report on given ip address
