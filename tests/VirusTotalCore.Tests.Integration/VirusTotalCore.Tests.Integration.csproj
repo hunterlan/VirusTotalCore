@@ -21,4 +21,9 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\VirusTotalCore.Files\VirusTotalCore.Files.csproj" />
+        <ProjectReference Include="..\..\src\VirusTotalCore.Common\VirusTotalCore.Common.csproj" />
+    </ItemGroup>
+
 </Project>

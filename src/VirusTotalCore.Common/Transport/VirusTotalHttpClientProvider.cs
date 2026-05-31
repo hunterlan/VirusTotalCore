@@ -24,7 +24,7 @@ internal static class VirusTotalHttpClientProvider
         ValidateApiKey(apiKey);
 
         var httpClient = httpClientFactory.CreateClient();
-        httpClient.BaseAddress = new Uri(ApiBaseUrl);
+        httpClient.BaseAddress ??= new Uri(ApiBaseUrl);
         httpClient.DefaultRequestHeaders.Add("x-apikey", apiKey);
         return httpClient;
     }
