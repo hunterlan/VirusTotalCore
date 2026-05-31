@@ -15,6 +15,7 @@ public sealed class UrlEndpoint : BaseEndpoint, IUrlEndpoint
 {
     public UrlEndpoint(string apiKey) : base(apiKey, "urls") { }
     public UrlEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "urls") { }
+    internal UrlEndpoint(HttpClient httpClient) : base(httpClient, "urls") { }
 
     /// <summary>
     /// Request to scan a URL and submit it for analysis.

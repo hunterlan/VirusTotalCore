@@ -4,7 +4,7 @@ using VirusTotalCore.Common.Exceptions;
 using VirusTotalCore.Common.Models.Comments;
 using VirusTotalCore.IpAddresses.Endpoints;
 
-namespace VirusTotalCore.Tests;
+namespace VirusTotalCore.Tests.EndToEnd;
 
 public class IpAddressTest
 {

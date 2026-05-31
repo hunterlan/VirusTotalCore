@@ -20,7 +20,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="VirusTotalCore.Tests" />
+    <InternalsVisibleTo Include="VirusTotalCore.Files" />
+    <InternalsVisibleTo Include="VirusTotalCore.IpAddresses" />
+    <InternalsVisibleTo Include="VirusTotalCore.Domains" />
+    <InternalsVisibleTo Include="VirusTotalCore.Urls" />
+    <InternalsVisibleTo Include="VirusTotalCore.Comments" />
+    <InternalsVisibleTo Include="VirusTotalCore.Tests.Unit" />
+    <InternalsVisibleTo Include="VirusTotalCore.Tests.Integration" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using VirusTotalCore.Domains.Endpoints;
 using VirusTotalCore.Comments.Endpoints;
 using VirusTotalCore.Common.Models.Comments;
 using VirusTotalCore.Common.Models.Comments.Vote;
 
-namespace VirusTotalCore.Tests;
+namespace VirusTotalCore.Tests.EndToEnd;
 
 public class CommentTest
 {

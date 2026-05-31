@@ -14,6 +14,7 @@ public sealed class DomainsEndpoint : BaseEndpoint, IDomainsEndpoint
 {
     public DomainsEndpoint(string apiKey) : base(apiKey, "domains") { }
     public DomainsEndpoint(IHttpClientFactory customHttpClient, string apiKey) : base(customHttpClient, apiKey, "domains") { }
+    internal DomainsEndpoint(HttpClient httpClient) : base(httpClient, "domains") { }
 
     /// <summary>
     /// Get report about a specific domain.
