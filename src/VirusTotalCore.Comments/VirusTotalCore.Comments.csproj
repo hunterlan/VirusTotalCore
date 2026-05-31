@@ -16,6 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="VirusTotalCore.Tests.Integration" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="../VirusTotalCore.Common/VirusTotalCore.Common.csproj" />
   </ItemGroup>
 
